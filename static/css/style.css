@@ -1,0 +1,302 @@
+html,body {
+    margin:0;
+    padding:0;
+    overflow-x:hidden;
+}
+.bg-gray{
+    background-color: #525356;
+}
+.text-gray{
+    color: #525356;
+}
+.navbar-brand{
+    font-size: 28px  !important;
+    font-weight: bold;
+    color: #EEC120 !important;
+}
+.bg-yellow{
+    background-color: #EEC120;
+}
+.text-yellow{
+    color: #EEC120;
+}
+.nav-item{
+    margin: 0px 10px;
+}
+.nav-link{
+    color: white !important;
+}
+.navbar-nav > .active{
+    border-bottom: 2px solid #EEC120;
+}
+.rounded-30{
+    border-radius: 30px;
+}
+.text-bold{
+    font-weight: bold !important;
+}
+.btn-gray{ padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    color: #EEC120;
+    background-color: #525356;
+}
+.btn-gray:hover{
+    color:  #525356;
+    background-color:#EEC120;
+}
+.btn-yellow{ padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    color: #525356;
+    background-color: #EEC120;
+}
+.btn-yellow:hover{
+    color:  #EEC120;
+    background-color:#525356;
+}
+
+
+
+/* fix arrows of carousel */
+
+  
+  /* end fix */
+  .owl-nav > div {
+    margin-top: -26px;
+    position: absolute;
+    top: 25%;
+    color: black;
+  }
+  
+  .owl-nav i {
+    font-size: 52px;
+  }
+  
+  .owl-nav .owl-prev {
+    left: -60px;
+    background: transparent !important;
+    color: #525356 !important;
+  }
+  
+  .owl-nav .owl-next {
+    right: -60px;
+    background: transparent !important;
+    color: #525356 !important;
+  }
+  
+  .serv-circle{
+      width: 150px;
+      height: 150px;
+      margin: 1rem !important;
+      color: white;
+      background-color: #464749;
+      padding: 20px 5px;
+      border-radius: 50%;
+  }
+  .serv-circle:hover{
+      background-color: #EEC120;
+  }
+  .translate-modal{
+      background-color: #2D3E50; 
+      padding: 5rem;
+  }
+  .translate-bg{
+      background-image: url(../images/translate-bg.jpg);
+      background-size: cover;
+      height: 300px;
+  }
+  .goog-te-combo{
+    width: 100%;
+    padding: 10px ;
+    font-size: 16px !important;
+    border-radius: 5px;
+  }
+  .footer-list >li> a{
+      color: white !important;
+  }
+  a:hover{
+    color: #EEC120 !important;
+}
+.footer-list >li{
+    padding-top:5px;
+}
+
+/* Multistep form CSS */
+
+.multistep-form {
+    padding:50px 5rem;
+}
+.tab input:focus {
+    border: 1px solid #EEC120 !important;
+    outline: none
+}
+
+input.invalid {
+    border: 1px solid #e03a0666
+}
+
+.tab {
+    display: none
+}
+
+#prevBtn,#nextBtn {
+    background-color: #EEC120;
+    color: #464749;
+    border: none;
+    border-radius: 50%;
+    padding: 10px 20px;
+    font-size: 17px;
+    font-family: Raleway;
+    cursor: pointer
+}
+
+#prevBtn :hover , #nextBtn :hover {
+    opacity: 0.8
+}
+
+#prevBtn:focus, #nextBtn :focus  {
+    outline: none !important
+}
+
+
+.all-steps {
+    text-align: center;
+    margin-bottom: 10px;
+    width: 100%;
+    display: inline-flex;
+    justify-content: center
+}
+.step-hd{
+	color: #EEC120;
+	text-align: center;
+}
+.step {
+    z-index: 1;
+    height: 40px;
+    width: 40px;
+    margin: 0 10%;
+    background-color: #525356;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    color: white;
+}
+
+.step.active {
+    background-color: #EEC120;
+    color: #464749;
+}
+
+.step.finish {
+    color: #fff;
+    background: #EEC120;
+    opacity: 1
+}
+
+.thanks-message {
+    display: none
+}
+ /* End Multistep Profile  */
+ .progress{
+    position: absolute;
+    z-index: 0;
+    width: 45%;
+    margin-left: 25% !important;
+    /* text-align: center; */
+    margin-top: 15px;
+    height: 5px !important;
+}
+.text,.text2,.text3 {
+    position: absolute;
+    margin-top: 38px;
+    left: 0;
+    
+}
+.text{
+    margin-left: 22%;
+}
+.text2 {
+    margin-left: 47%;
+}
+.text3 {
+    margin-left: 67%;
+}
+
+/* Skill Select CSS */
+
+.checkboxs:checked{
+    background-color: red;
+}
+
+ul.ks-cboxtags {
+    list-style: none;
+    padding: 20px;
+}
+ul.ks-cboxtags li{
+display: inline;
+}
+ul.ks-cboxtags li label{
+    display: inline-block;
+    background-color: #464749;
+    border: 2px solid #525356;
+    color: #fff;
+    border-radius: 70px;
+    white-space: nowrap;
+    margin: 12px;
+    font-size: small;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: all .2s;
+}
+
+ul.ks-cboxtags li label {
+    width: 120px;
+    height: 120px;
+    cursor: pointer;
+}
+
+ul.ks-cboxtags li label::before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 18px;
+    padding: 2px 6px 2px 2px;
+    content: "\002B";
+    transition: transform .3s ease-in-out;
+}
+
+ul.ks-cboxtags li input[type="checkbox"]:checked + label::before {
+    content: "\2713";
+    transform: rotate(-360deg);
+    transition: transform .3s ease-in-out;
+}
+
+ul.ks-cboxtags li input[type="checkbox"]:checked + label {
+    border: 2px solid #464749;
+    background-color: #EEC120;
+    color: #464749;
+    transition: all .2s;
+}
+
+ul.ks-cboxtags li input[type="checkbox"] {
+display: absolute;
+}
+ul.ks-cboxtags li input[type="checkbox"] {
+position: absolute;
+opacity: 0;
+}
+ul.ks-cboxtags li input[type="checkbox"]:focus + label {
+border: 2px solid #e9a1ff;
+}

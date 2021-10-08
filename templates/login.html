@@ -1,0 +1,38 @@
+{% extends 'layout2.html' %}
+{% block title %}Login | Digital Workers{% endblock title %}
+{% load static %}
+{% block body %}
+    <!-- Register Form -->
+    <div class="container my-5 bg-white shadow rounded-30">
+        <div class="row">
+            <div class="col-md-7 text-center p-3">
+                <h2 class="text-gray mt-5">Login to the Digital World</h2>
+                <p>Don't have an Account? <a href="register" class="text-yellow text-bold"> Register</a></p>
+                <form action="" method="post" class="mt-5" id="reg_form">
+                <div class="form-input">
+                    <i class="fas fa-envelope mt-2"></i>
+                    <input type="email" name="email" class="input-txt" placeholder="Your Email" required>
+                </div>
+                <div class="form-input " id="show_hide_password">
+                    <i class="fas fa-unlock mt-2"></i> <i class="fas fa-eye reveal mt-3"></i>
+                     <input type="password" name="password" class="input-txt pwd" placeholder="Password" required>
+                </div>
+               <div class="form-input mt-0  text-left">
+                   <input type="checkbox" name="submit" class="text-bold"> Remeber Me
+                </div>
+                <div class="form-input mt-0">
+                     <input type="submit" name="submit" class="btn btn-warning w-100 text-bold" value="Login Now">
+                </div>
+                </form>
+            </div>
+            <div class="col-md-5 p-5 text-center">
+                <img src="{% static 'images/signin-image.png' %}" class="w-75" alt="" srcset=""> <br> <br>
+                <button class="btn btn-outline-primary"><img src="{% static 'images/facebook.png' %}" width="20" alt=""><i class="fas fa-facebook-f"></i> Login with Facebok</button> <br> <br>
+                <button class="btn btn-outline-danger"><img src="{% static 'images/google.png' %}" width="20" alt=""><i class="fas fa-facebook-f"></i> Login with Google</button>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock body %}

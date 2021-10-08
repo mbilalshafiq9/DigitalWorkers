@@ -1,0 +1,44 @@
+
+.input-txt{
+    width: 100%;
+    display: inline;
+    border: none;
+    border-bottom: 1px solid #999;
+    font-family: Poppins;
+    padding: 6px 30px;
+    outline: none;
+}
+.input-txt:focus{
+border-bottom: 2px solid #EEC120;
+}
+.form-input > i{
+    position: absolute;
+}
+.form-input{
+
+    margin: 2rem;
+}
+.check_box{
+    width: 5%;
+}
+.reveal{
+    right: 70px;
+    color: gray;
+}
+.radio_role { 
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* IMAGE STYLES */
+  .radio_role + p {
+    cursor: pointer;
+  }
+  
+  /* CHECKED STYLES */
+ 
+  .radio_role:checked + p { padding: 0px 10px;
+    outline: 2px solid #EEC120;
+  }
