@@ -1,0 +1,86 @@
+{% extends 'layout.html' %}
+
+{% block title %}Find Work | Digital Workers{% endblock title %}
+{% block find_work %}active{% endblock find_work %}
+
+{% load static %}
+{% block body %}
+<!-- Body Start -->
+
+<body class="bg-light">
+  <div class="container ">
+    <!-- Skills Slider Section -->
+    <section class="works">
+      <h3 class="text-gray  my-4">Find Work </h3>
+      <!-- Custom Search Bar -->
+        <div class="input-group mb-3 search-bg">
+            <div class="input-group-append">
+                <select name="location" id="location" class="text-yellow px-3 search-select" >
+                    <option value="">Choose Location</option>
+                    <option value="Sahiwal">Sahiwal</option>
+                    <option value="Lahore">Lahore</option>
+                    <option value="Multan">Multan</option>
+                </select>
+            
+            </div>
+            <div class="input-group-append">
+                <select name="location" id="location" class="text-yellow px-3 search-select" >
+                    <option value="">Budget Range</option>
+                    <option value="1-500">Rs 1-500</option>
+                    <option value="500-1000">Rs 500-1000</option>
+                    <option value="1000-2000">Rs 1000-2000</option>
+                    <option value="2000-4000">Rs 2000-4000</option>
+                    <option value="4000">Rs 4000+</option>
+                </select>
+            </div>
+            <input type="text" class="form-control search-input py-4" placeholder=" Search Work title or keyword here..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+            <button class="btn btn-warning px-5 search-btn" type="button">Search <i class="fas fa-search"></i></button>
+            </div>
+        </div>
+
+    
+    </section><br> <br>
+ 
+</div>
+    <!-- Works List Section-->
+        <div class="row mx-5">
+            <div class="col-md-9">
+                <div class="row">
+                    {% for work in works %} 
+                    <div class="col-md-3 work-box p-3 m-3 bg-white rounded shadow">
+                        <img src="../media/{{work.service.image}}" class="bg-{{work.service.name}} p-2 rounded mx-auto d-block" width="70" alt="work_icon" srcset=""> 
+                        <h5 class="mt-4">{{work.title}}</h5>
+                        <div class="inner-box text-small mt-3">
+                            <p ><i class="fas fa-map-marker-alt text-gray"></i> {{work.location}}</p>
+                            <p><i class="fas fa-money-bill-wave text-gray"></i> Rs. {{work.budget}}</p> 
+                            <p><i class="fas fa-clock text-gray"></i> {{work.deadline.date}}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                   
+                </div>
+
+            </div>
+            <div class=" col-md-3 work-box bg-white roundedshadow p-0">
+                <div class="bg-color bg-Cleaner" style="height:80px"></div>
+                <img src="../media/icons/Cleaner.png" class="bg-Cleaner p-2 rounded mx-auto d-block" style="border: 2px solid white; margin-top:-40px" width="70" alt="work_icon" srcset=""> 
+                <h5 class="mt-4 pl-3">House ka Roof top clean krwana ha</h5>
+                <p class="text-success px-3">
+                 <span class="float-left">21 hours ago</span><span class="float-right">available</span> </p>
+                <div class="inner-box text-small mt-3 p-3  "><br> 
+                    <small>
+                        Minima accusantium vero? Vitae quae natus enim mollitia explicabo possimus temporibus, ducimus architecto porro ab dolorem, 
+                        inventore similique architecto magnam esse non provident, ut dolorem eaque, molestias eos ullam totam cum vitae at?
+                    </small> <br> <br>
+                     <p ><i class="fas fa-user-alt text-gray"></i> Dean Joe</p>
+                    <p ><i class="fas fa-map-marker-alt text-gray"></i> lahore</p>
+                    <p><i class="fas fa-money-bill-wave text-gray"></i> Rs. 12910</p> 
+                    <p><i class="fas fa-clock text-gray"></i> 23920</p>
+                </div>
+            </div>
+        </div>
+ 
+
+
+{% endblock body %}

@@ -38,4 +38,5 @@ $('#tab1').show();
     $('#tab3').hide();
     $('#all-steps').hide();
     $('#text-message').show();
+    $('#profile-form').submit();
   }

@@ -19,9 +19,12 @@ from Home import views
 
 urlpatterns = [
     path('', views.index, name="index"),
-    path('home/', views.index, name="index"),
+    path('home', views.index, name="index"),
     path('login', views.login, name="login"),
     path('logout', views.logout, name="logout"),
     path('register', views.register, name="register"),
+    path('profile', views.profile, name="profile"),
+    path('find-work', views.find_work, name="find_work"),
+    path('about', views.about, name="about"),
     # path('forgot_password', views.forgot_pass, name="forgot_password"),
 ]

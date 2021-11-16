@@ -1,5 +1,6 @@
 {% extends 'layout2.html' %}
 {% block title %}Login | Digital Workers{% endblock title %}
+{% block login %}active{% endblock login %}
 {% load static %}
 {% block body %}
     <!-- Register Form -->
@@ -8,7 +9,8 @@
             <div class="col-md-7 text-center p-3">
                 <h2 class="text-gray mt-5">Login to the Digital World</h2>
                 <p>Don't have an Account? <a href="register" class="text-yellow text-bold"> Register</a></p>
-                <form action="" method="post" class="mt-5" id="reg_form">
+                <form action="{% url 'login' %}" method="post" class="mt-5" id="reg_form">
+                {% csrf_token %}
                 <div class="form-input">
                     <i class="fas fa-envelope mt-2"></i>
                     <input type="email" name="email" class="input-txt" placeholder="Your Email" required>

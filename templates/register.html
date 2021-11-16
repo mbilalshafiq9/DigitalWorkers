@@ -1,5 +1,7 @@
 {% extends 'layout2.html' %}
 {% block title %}Register | Digital Workers{% endblock title %}
+{% block register %}active{% endblock register %}
+
 {% load static %}
 {% block body %}
     <!-- Register Form -->
@@ -13,7 +15,8 @@
             <div class="col-md-7 text-center p-3">
                 <h2 class="text-gray">Register in the Digital World</h2>
                 <p>Already have an Account? <a href="login" class="text-yellow text-bold"> Login</a></p>
-                <form action="" method="post" id="reg_form">
+                <form action="register" method="post" id="reg_form">
+                {% csrf_token %}
                 <div class="form-input">
                     <i class="fas fa-user mt-2"></i>
                     <input type="text" name="name" class="input-txt" placeholder="Your Full Name" required>
@@ -34,11 +37,11 @@
                     <h6> Register As:</h6>
                     <div class="options text-center pt-3">
                     <label class="text-center px-5">
-                        <input type="radio" class="radio_role" name="test" value="small" checked>
+                        <input type="radio" class="radio_role" name="role" value="worker" checked>
                         <p> <img src=" {% static 'images/worker.jpg' %}" width="80"><br> Worker</p>
                     </label>
                     <label class="text-center px-5">
-                        <input type="radio" class="radio_role" name="test" value="small" >
+                        <input type="radio" class="radio_role" name="role" value="buyer" >
                         <p><img src="{% static 'images/client.jpg' %}" width="80"><br> Buyer</p>
                     </label>
                 </div>

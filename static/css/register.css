@@ -42,3 +42,11 @@ border-bottom: 2px solid #EEC120;
   .radio_role:checked + p { padding: 0px 10px;
     outline: 2px solid #EEC120;
   }
+  .alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+.alert-messages{
+  position: absolute;
+}

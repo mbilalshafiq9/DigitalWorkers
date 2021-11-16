@@ -55,8 +55,14 @@ html,body {
     color:  #EEC120;
     background-color:#525356;
 }
-
-
+.alert-messages{
+    position: absolute;
+}
+.alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
 
 /* fix arrows of carousel */
 
@@ -300,3 +306,35 @@ opacity: 0;
 ul.ks-cboxtags li input[type="checkbox"]:focus + label {
 border: 2px solid #e9a1ff;
 }
+
+/*  FInd Work Search CSS */
+.search-bg{ background: white;
+    padding: 0px;
+    border: 1px solid lightgray;
+    border-radius: 30px;
+}
+.search-select{
+    border: 0px;
+    border-right: 1px solid lightgray;
+    border-radius: 1px;
+    background: transparent;
+}
+.search-input{
+    border: 0px !important;
+    border-radius: 1px  !important;
+    background: transparent;
+}
+.search-btn{
+    padding: 10px !important;
+    border-radius: 30px !important;
+}
+/* Work Colors CSS */
+.bg-Cleaner{ background:#3772EA }
+.bg-Event{ background:#EEC120 }
+.bg-Mechanics{ background:#525356 }
+.bg-Electrician{ background:#AC9D11 }
+.bg-Car{ background:#17B3BE }
+.bg-Painter { background:#3CA44D }
+.bg-Ac { background:#DF2C57 }
+.bg-Plumber { background:#858585 }
+.bg-Photographer { background:#F93A0B }

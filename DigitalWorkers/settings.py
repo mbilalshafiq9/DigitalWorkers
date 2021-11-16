@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Home.apps.HomeConfig',
+    'Worker.apps.WorkerConfig',
+    'Buyer.apps.BuyerConfig',
 ]
 
 MIDDLEWARE = [
@@ -115,16 +117,26 @@ USE_L10N = True
 
 USE_TZ = True
 
+DEBUG = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
+# Added Manually
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Managing Media Files
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+# Custom USER Auth
+AUTH_USER_MODEL='Home.User'

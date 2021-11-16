@@ -1,5 +1,8 @@
 {% extends 'layout.html' %}
+
 {% block title %}Digital Workers | Best Physical Services with an Ease{% endblock title %}
+{% block home %}active{% endblock home %}
+
 {% load static %}
 {% block body %}
 <!-- Body Start -->
@@ -21,61 +24,13 @@
     <section class="slider ">
       <h3 class="text-gray text-bold my-5">What Services are you looking for?</h3>
       <div class="owl-carousel owl-theme">
+        {% for service in services %}
         <div class="item">
           <div class="serv-circle text-center ">
-              <img src="{% static 'images/icons/ac.png' %}"class="w-50 py-2 mx-auto" alt=""><p> AC Services</p>
+              <img src="../media/{{service.image}}"class="w-50 py-2 mx-auto" alt=""><p> {{service.name}}</p>
           </div>
         </div>
-        <div class="item">
-          <div class="serv-circle text-center ">
-            <img src="{% static 'images/icons/cleaner.png' %}"class="w-50 py-2 mx-auto" alt=""><p>Cleaner</p>
-          </div>
-        </div>
-        <div class="item">
-          <div class="serv-circle text-center ">
-            <img src="{% static 'images/icons/plumber.png' %}"class="w-50 py-2 mx-auto" alt=""><p>  Plumber</p>
-          </div>
-        </div>
-        <div class="item">
-          <div class="serv-circle text-center ">
-            <img src="{% static 'images/icons/electrician.png' %}"class="w-50 py-2 mx-auto" alt=""><p> Electrician</p>
-          </div>
-        </div>
-        <div class="item">
-          <div class="serv-circle text-center ">
-            <img src="{% static 'images/icons/event planner.png' %}"class="w-50 py-2 mx-auto" alt=""><p> Event Planner</p>
-          </div>
-        </div>
-        <div class="item">
-          <div class="serv-circle text-center ">
-            <img src="{% static 'images/icons/photographer.png' %}"class="w-50 py-2 mx-auto" alt=""><p> Photographer</p>
-          </div>
-        </div>
-        <div class="item">
-          <div class="serv-circle text-center ">
-            <img src="{% static 'images/icons/delivery.png' %}"class="w-50 py-2 mx-auto" alt=""><p> Pickup/ Delivery</p>
-          </div>
-        </div>
-        <div class="item">
-          <div class="serv-circle text-center ">
-            <img src="{% static 'images/icons/carpenter.png' %}"class="w-50 py-2 mx-auto" alt=""><p> Car Penter</p>
-          </div>
-        </div>
-        <div class="item">
-          <div class="serv-circle text-center ">
-            <img src="{% static 'images/icons/painter.png' %}"class="w-50 py-2 mx-auto" alt=""><p>  Painter</p>
-          </div>
-        </div>
-        <div class="item">
-          <div class="serv-circle text-center ">
-            <img src="{% static 'images/icons/car washer.png' %}"class="w-50 py-2 mx-auto" alt=""><p>  Car Washer</p>
-          </div>
-        </div>
-        <div class="item">
-          <div class="serv-circle text-center ">
-            <img src="{% static 'images/icons/other.png' %}"class="w-50 py-2 mx-auto" alt=""><p> Other</p>
-          </div>
-        </div>
+        {% endfor %}
       </div>
     </section><br> <br>
     <section class="steps">
