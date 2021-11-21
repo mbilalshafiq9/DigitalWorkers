@@ -17,7 +17,7 @@ def index(request):
     }
     return render(request,"index.html", context)
 
-
+# Login Function to handle login request
 def login(request):
     if request.method=="POST":
         email=request.POST['email']
@@ -34,9 +34,13 @@ def login(request):
         else:
             messages.error(request, 'Invalid login Details. Please Try Again!')
             return redirect('login')
-    return render(request,"login.html")
+    # Redirect if logged user open login page
+    if request.user.is_authenticated:
+        return redirect("index")
+    else:
+        return render(request,"login.html")
 
-
+# Register Function to handle Registration request
 def register(request):
     if request.method=="POST":
         name=request.POST.get('name')
@@ -63,16 +67,34 @@ def logout(request):
     return render(request,"login.html")
 
 def find_work(request):
-    colors = {
-        "Cleaner": "info",
-        "Event Planner": "warning",
-        "Electrician": "danger",
-        }
     context={
-        "colors":colors,
-        "works":Work.objects.filter(status="available")
+        "works":Work.objects.filter(status="available").order_by('-posted_at')
     }
     return render(request,"find_work.html",context)
+
+def post_work(request):
+    if request.method=="POST":
+        title=request.POST['title']
+        description=request.POST['description']
+        location=request.POST['location']
+        budget=request.POST['budget']
+        deadline=request.POST['deadline']
+        serviceid=request.POST['service']
+        service=Service.objects.get(id=serviceid)
+        posted_by=request.user
+        work =Work(title=title, description=description,location=location,budget=budget,deadline=deadline,service=service,posted_by=posted_by)
+        work.save()
+        messages.success(request, 'Task is Posted Successfully!')
+        return render(request,"post_work.html")
+    # Check if Only Buyer is logged in 
+    if request.user.is_authenticated and request.user.role == 'buyer':
+        context={
+            "services":Service.objects.all()
+        }
+        return render(request,"post_work.html",context)
+    else:
+        messages.warning(request, 'Your need to login as Buyer to Post Task!')
+        return redirect('index')
 
 
 def profile(request):
@@ -110,6 +132,9 @@ def profile(request):
 
 def about(request):
     return render(request,"about.html")
+
+def dashboard(request):
+    return render(request,"dashboard.html")
 
 
 

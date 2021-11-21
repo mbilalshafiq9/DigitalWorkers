@@ -3,6 +3,7 @@ from django.db import models
 
 from django.conf import settings
 from django.db.models.fields import BooleanField
+from Buyer.models import Work
 # Create your models here.
 
 class Worker(models.Model):
@@ -21,3 +22,15 @@ class Worker(models.Model):
     def __str__(self):
         worker=self.user.name+" - "+self.user.email
         return worker
+
+class Offer(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    budget = models.IntegerField( null=True)
+    description = models.TextField( null=True)
+    offer_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    work = models.ForeignKey(Work, on_delete=models.CASCADE, null=True)
+    offer_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        offer=self.description
+        return offer

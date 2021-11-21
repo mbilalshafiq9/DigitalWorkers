@@ -25,6 +25,8 @@ urlpatterns = [
     path('register', views.register, name="register"),
     path('profile', views.profile, name="profile"),
     path('find-work', views.find_work, name="find_work"),
+    path('post-work', views.post_work, name="post_work"),
     path('about', views.about, name="about"),
+    path('dashboard', views.dashboard, name="dashboard"),
     # path('forgot_password', views.forgot_pass, name="forgot_password"),
 ]

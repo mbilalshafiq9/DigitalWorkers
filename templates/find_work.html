@@ -1,12 +1,13 @@
 {% extends 'layout.html' %}
-
 {% block title %}Find Work | Digital Workers{% endblock title %}
 {% block find_work %}active{% endblock find_work %}
 
 {% load static %}
 {% block body %}
 <!-- Body Start -->
-
+<style>
+    .work-box:hover{border:1px solid gray;cursor:pointer;box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important}
+</style>
 <body class="bg-light">
   <div class="container ">
     <!-- Skills Slider Section -->
@@ -35,7 +36,7 @@
             </div>
             <input type="text" class="form-control search-input py-4" placeholder=" Search Work title or keyword here..." aria-label="Recipient's username" aria-describedby="basic-addon2">
             <div class="input-group-append">
-            <button class="btn btn-warning px-5 search-btn" type="button">Search <i class="fas fa-search"></i></button>
+            <button class="btn-yellow px-5 search-btn" type="button">Search <i class="fas fa-search"></i></button>
             </div>
         </div>
 
@@ -46,41 +47,119 @@
     <!-- Works List Section-->
         <div class="row mx-5">
             <div class="col-md-9">
-                <div class="row">
+                <div class="row"> 
                     {% for work in works %} 
-                    <div class="col-md-3 work-box p-3 m-3 bg-white rounded shadow">
+                    <div class="col-lg-4 col-xl-3 col-md-6 p-2 ">
+                        <div class="work-box p-3  bg-white rounded border" id="work-box" onclick="detailbox('{{work.id}}')" >
                         <img src="../media/{{work.service.image}}" class="bg-{{work.service.name}} p-2 rounded mx-auto d-block" width="70" alt="work_icon" srcset=""> 
                         <h5 class="mt-4">{{work.title}}</h5>
                         <div class="inner-box text-small mt-3">
                             <p ><i class="fas fa-map-marker-alt text-gray"></i> {{work.location}}</p>
                             <p><i class="fas fa-money-bill-wave text-gray"></i> Rs. {{work.budget}}</p> 
-                            <p><i class="fas fa-clock text-gray"></i> {{work.deadline.date}}</p>
+                            <p><i class="fas fa-clock text-gray"></i> {{work.deadline.date}}</p> <hr class="p-0 m-1">
+                            <small class="text-gray">10 Offers</small>
                         </div>
-                    </div>
-                    {% endfor %}
+                        </div>
+                    </div>{% endfor %}
                    
                 </div>
 
             </div>
-            <div class=" col-md-3 work-box bg-white roundedshadow p-0">
-                <div class="bg-color bg-Cleaner" style="height:80px"></div>
-                <img src="../media/icons/Cleaner.png" class="bg-Cleaner p-2 rounded mx-auto d-block" style="border: 2px solid white; margin-top:-40px" width="70" alt="work_icon" srcset=""> 
-                <h5 class="mt-4 pl-3">House ka Roof top clean krwana ha</h5>
-                <p class="text-success px-3">
-                 <span class="float-left">21 hours ago</span><span class="float-right">available</span> </p>
-                <div class="inner-box text-small mt-3 p-3  "><br> 
-                    <small>
-                        Minima accusantium vero? Vitae quae natus enim mollitia explicabo possimus temporibus, ducimus architecto porro ab dolorem, 
-                        inventore similique architecto magnam esse non provident, ut dolorem eaque, molestias eos ullam totam cum vitae at?
-                    </small> <br> <br>
-                     <p ><i class="fas fa-user-alt text-gray"></i> Dean Joe</p>
-                    <p ><i class="fas fa-map-marker-alt text-gray"></i> lahore</p>
-                    <p><i class="fas fa-money-bill-wave text-gray"></i> Rs. 12910</p> 
-                    <p><i class="fas fa-clock text-gray"></i> 23920</p>
-                </div>
+            <div class=" col-md-3 detail-box bg-white rounded shadow p-0" id="detailbox">
+            {% for work in works %}
+                {% if work.id == 1 %}
+                <div class="bg-color bg-{{work.service.name}} rounded" style="height:80px"></div>
+                    <img src="../media/{{work.service.image}}" class="bg-{{work.service.name}} p-2 rounded mx-auto d-block" style="border: 2px solid white; margin-top:-40px" width="70" alt="work_icon" srcset="">
+                    <h5 class="mt-4 pl-3" >{{work.title}}</h5>
+                    <p class="text-success px-3">
+                    <span class="float-left">{{work.posted_at|timesince}} ago</span><span class="float-right">{{work.status}}</span> </p>
+                    <div class="inner-box text-small mt-3 p-3  "><br> 
+                        <small>{{work.description}}</small> <br> <br>
+                        <p><i class="fas fa-user-alt text-white bg-gray rounded-30 p-2"></i> {{work.posted_by.name}}</p>
+                        <p ><i class="fas fa-map-marker-alt text-white bg-gray rounded-30 p-2"></i> {{work.location}}</p>
+                        <p><i class="fas fa-money-bill-wave text-white bg-gray rounded-30 p-2"></i> Rs. {{work.budget}}</p> 
+                        <p><i class="fas fa-clock text-white bg-gray rounded-30 p-2"></i> {{work.deadline.date}}</p>
+                    </div>
+                    <button class="btn-yellow mx-3" onclick="chkapply('{{work.title}}','{{work.description}}','{{work.budget}}','{{work.deadline.date}}','{{work.location}}')" id='apply-btn'>Apply for Work</button>
+                    <p class="text-danger text-center text-bold" id="loginerror"></p>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
- 
+        <br><br>
+<!--Apply work Modal -->
+<div class="modal fade" id="applyModal" tabindex="-1" role="dialog" aria-labelledby="applyModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="applyModalLabel">Apply for Work</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div class="row box bg-light border p-2">
+                <div class="col-md-8">
+                    <h6 id="title">Title goes herer asa</h6>
+                    <small id="description">Description Goes here ahwe wuajska  ajsj asjasj asask jaks aks kasja  NOKas jjkjk</small> <br>
+                </div>
+                <div class="col-md-4">
+                    <span id="budget" class="text-success text-bold">Rs. 1500 </span><br><span id="deadline" class="text-danger">Due :12-129-102 </span>
+                    <small id="location"> Lalazar colony  Sahiwal, Pkaitsan </small>
+                </div>
+            </div> 
+            <form action="find-work" method="post">
+                {% csrf_token %}
+                <label for="">Enter Price</label>
+                <input type="number" name="price" class="form-control" placeholder="E.g, 1200" id="">
+                <label for="">Describe Your Service</label>
+                <textarea name="description" id="" cols="30" rows="3" class="form-control" placeholder="Describe what you offer"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-warning">Send Offer</button></form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Js Code Below -->
+ <script>
+    function chkapply(title,description,budget,deadline,location){
+        {% if user.is_authenticated %}
+            $('#applyModal').modal('show'); 
+            $('#title').text(title); $('#description').text(description);
+            $('#budget').text(budget); $('#deadline').text(deadline);
+            $('#location').text(location);
+
+        {% else %}
+            $('#loginerror').html("You  need to <a href='login'>login</a> first!")
+        {% endif %}
+    }
+     function detailbox(id){
+      {% for work in works %}
+      if("{{work.id}}"==id){
+        var html='<div class="bg-color bg-{{work.service.name}} rounded" style="height:80px"></div>'
+                +'<img src="../media/{{work.service.image}}" class="bg-{{work.service.name}} p-2 rounded mx-auto d-block" style="border: 2px solid white; margin-top:-40px" width="70" alt="work_icon" srcset=""> '
+                +'<h5 class="mt-4 pl-3" >{{work.title}}</h5>'
+                +'<p class="text-success px-3">'
+                 +'<span class="float-left">{{work.posted_at|timesince}} ago</span><span class="float-right">{{work.status}}</span> </p>'
+                +'<div class="inner-box text-small mt-3 p-3  "><br> '
+                   +' <small>{{work.description}}</small> <br> <br>'
+                     +'<p><i class="fas fa-user-alt text-white bg-gray rounded-30 p-2"></i> {{work.posted_by.name}}</p>'
+                    +'<p ><i class="fas fa-map-marker-alt text-white bg-gray rounded-30 p-2"></i> {{work.location}}</p>'
+                    +'<p><i class="fas fa-money-bill-wave text-white bg-gray rounded-30 p-2"></i> Rs. {{work.budget}}</p> '
+                    +'<p><i class="fas fa-clock text-white bg-gray rounded-30 p-2"></i> {{work.deadline.date}}</p>'
+                +'</div>'
+                +'<button class="btn-yellow mx-3" onclick="chkapply(`{{work.title}}`)" id="apply-btn">Apply for Work</button><p class="text-danger text-center text-bold" id="loginerror"></p>';
+                $("#detailbox").html(html);
+                
+      }
+      {% endfor %}
+
+     }
+     
+ detailbox(2);
+ </script>
 
 
 {% endblock body %}
