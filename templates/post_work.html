@@ -57,6 +57,7 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnd9JwZvXty-1gHZihMoFhJtCXmHfeRQg"></script>
 <script>
+// Autocomplete location
 function showlocation(position) {
     $.ajax({
         url: "https://api.locationiq.com/v1/autocomplete.php?key=pk.5a287c69e1dcdfab64abda7838b36bef&q="+position,
@@ -72,24 +73,7 @@ function showlocation(position) {
         }
     });
 }
-    // showlocation();
    
-    // function showlocation(position) {
-    // // alert(position.coords.latitude+", "+position.coords.longitude);
-    // // loc=$('#location').val();
-    // var settings = {
-    // "async": true,
-    // "crossDomain": true,
-    // "url": "https://api.locationiq.com/v1/autocomplete.php?key=pk.5a287c69e1dcdfab64abda7838b36bef&q=".$position,
-    // "method": "GET"
-    // }
-    // $.ajax(settings).done(function (response) {
-    //     console.log(response.place_id);
-    //     position=response.place_id;
-    //     document.getElementById("location").value = position;
-    // });
-
-    // }
 </script>
 
 

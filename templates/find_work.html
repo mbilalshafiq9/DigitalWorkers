@@ -14,29 +14,30 @@
     <section class="works">
       <h3 class="text-gray  my-4">Find Work </h3>
       <!-- Custom Search Bar -->
+        <form action="search" method="get">
         <div class="input-group mb-3 search-bg">
             <div class="input-group-append">
-                <select name="location" id="location" class="text-yellow px-3 search-select" >
+                <select name="location" required  class="text-yellow px-3 search-select" >
                     <option value="">Choose Location</option>
-                    <option value="Sahiwal">Sahiwal</option>
-                    <option value="Lahore">Lahore</option>
-                    <option value="Multan">Multan</option>
+                    <option value="Sahiwal" {% if request.GET.location == "Sahiwal" %}selected{% endif %}>Sahiwal</option>
+                    <option value="Lahore" {% if request.GET.location == "Lahore" %}selected{% endif %}>Lahore</option>
+                    <option value="Multan" {% if request.GET.location == "Multan" %}selected{% endif %}>Multan</option>
                 </select>
             
             </div>
             <div class="input-group-append">
-                <select name="location" id="location" class="text-yellow px-3 search-select" >
+                <select name="budget" value="{{request.GET.budget}}" required class="text-yellow px-3 search-select" >
                     <option value="">Budget Range</option>
-                    <option value="1-500">Rs 1-500</option>
-                    <option value="500-1000">Rs 500-1000</option>
-                    <option value="1000-2000">Rs 1000-2000</option>
-                    <option value="2000-4000">Rs 2000-4000</option>
+                    <option value="1-500" {% if request.GET.budget == "1-500" %}selected{% endif %}>Rs 1-500</option>
+                    <option value="500-1000"{% if request.GET.budget == "500-1000" %}selected{% endif %}>Rs 500-1000</option>
+                    <option value="1000-2000" {% if request.GET.budget == "1000-2000" %}selected{% endif %}>Rs 1000-2000</option>
+                    <option value="2000-4000" {% if request.GET.budget == "2000-4000" %}selected{% endif %}>Rs 2000-4000</option>
                     <option value="4000">Rs 4000+</option>
                 </select>
             </div>
-            <input type="text" class="form-control search-input py-4" placeholder=" Search Work title or keyword here..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <input type="text"name="query" value="{{request.GET.query}}"class="form-control search-input py-4" required placeholder=" Search Work title or keyword here..." aria-label="Recipient's username" aria-describedby="basic-addon2">
             <div class="input-group-append">
-            <button class="btn-yellow px-5 search-btn" type="button">Search <i class="fas fa-search"></i></button>
+            <button class="btn-yellow px-5 search-btn" type="submit">Search <i class="fas fa-search"></i></button></form>
             </div>
         </div>
 
@@ -57,33 +58,52 @@
                             <p ><i class="fas fa-map-marker-alt text-gray"></i> {{work.location}}</p>
                             <p><i class="fas fa-money-bill-wave text-gray"></i> Rs. {{work.budget}}</p> 
                             <p><i class="fas fa-clock text-gray"></i> {{work.deadline.date}}</p> <hr class="p-0 m-1">
-                            <small class="text-gray">10 Offers</small>
+                            <small class="text-gray">{{work.offer_count}} offers</small>
                         </div>
                         </div>
                     </div>{% endfor %}
-                   
                 </div>
+                 <!-- Pagination -->
+                {% if works.has_other_pages %}
+                <nav aria-label="Page navigation example">
+                <ul class="pagination pagination-template d-flex justify-content-center">
+                {% if works.has_previous %}
+                    <li class="page-item"><a href="?page={{ works.previous_page_number }}" class="page-link"> <i class="fa fa-angle-left"></i></a></li>
+                    {% else %}
+                    <li class="page-item disabled"><a href="" class="page-link"> <i class="fa fa-angle-left"></i></a></li> {% endif %}
+                    {% for i in works.paginator.page_range %}
+                    {% if works.number == i %}
+                    <li class="page-item"><a href="#" class="page-link active">{{ i }}</a></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link " href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if works.has_next %}
+                    <li class="page-item"><a href="?page={{ works.next_page_number }}" class="page-link"> <i class="fa fa-angle-right"></i></a></li>
+                    {% else %}
+                    <li class="disabled page-item"><a href="" class="page-link"><i class="fa fa-angle-right"></i></a></li>
+                    {% endif %}
+                </ul>
+                </nav>
+                {% endif %}
 
             </div>
             <div class=" col-md-3 detail-box bg-white rounded shadow p-0" id="detailbox">
-            {% for work in works %}
-                {% if work.id == 1 %}
-                <div class="bg-color bg-{{work.service.name}} rounded" style="height:80px"></div>
-                    <img src="../media/{{work.service.image}}" class="bg-{{work.service.name}} p-2 rounded mx-auto d-block" style="border: 2px solid white; margin-top:-40px" width="70" alt="work_icon" srcset="">
-                    <h5 class="mt-4 pl-3" >{{work.title}}</h5>
+                <div class="bg-color bg-{{works.0.service.name}} rounded" style="height:80px"></div>
+                    <img src="../media/{{works.0.service.image}}" class="bg-{{works.0.service.name}} p-2 rounded mx-auto d-block" style="border: 2px solid white; margin-top:-40px" width="70" alt="work_icon" srcset="">
+                    <h5 class="mt-4 pl-3" >{{works.0.title}}</h5>
                     <p class="text-success px-3">
-                    <span class="float-left">{{work.posted_at|timesince}} ago</span><span class="float-right">{{work.status}}</span> </p>
+                    <span class="float-left">{{works.0.posted_at|timesince}} ago </span><span class="float-right">{{works.0.status}}</span> </p>
                     <div class="inner-box text-small mt-3 p-3  "><br> 
-                        <small>{{work.description}}</small> <br> <br>
-                        <p><i class="fas fa-user-alt text-white bg-gray rounded-30 p-2"></i> {{work.posted_by.name}}</p>
-                        <p ><i class="fas fa-map-marker-alt text-white bg-gray rounded-30 p-2"></i> {{work.location}}</p>
-                        <p><i class="fas fa-money-bill-wave text-white bg-gray rounded-30 p-2"></i> Rs. {{work.budget}}</p> 
-                        <p><i class="fas fa-clock text-white bg-gray rounded-30 p-2"></i> {{work.deadline.date}}</p>
+                        <small>{{work.0.description}}</small> <br> <br>
+                        <p><i class="fas fa-user-alt text-white bg-gray rounded-30 p-2"></i> {{works.0.posted_by.name}}</p>
+                        <p ><i class="fas fa-map-marker-alt text-white bg-gray rounded-30 p-2"></i> {{works.0.location}}</p>
+                        <p><i class="fas fa-money-bill-wave text-white bg-gray rounded-30 p-2"></i> Rs. {{works.0.budget}}</p> 
+                        <p><i class="fas fa-clock text-white bg-gray rounded-30 p-2"></i> {{works.0.deadline.date}}</p>
                     </div>
-                    <button class="btn-yellow mx-3" onclick="chkapply('{{work.title}}','{{work.description}}','{{work.budget}}','{{work.deadline.date}}','{{work.location}}')" id='apply-btn'>Apply for Work</button>
-                    <p class="text-danger text-center text-bold" id="loginerror"></p>
-                    {% endif %}
-                {% endfor %}
+                        <button class="btn-yellow mx-3" onclick="chkapply('{{works.0.id}}','{{works.0.title}}','{{works.0.description}}','{{works.0.budget}}','{{works.0.deadline.date}}','{{works.0.location}}')" id='apply-btn'>Apply for Work</button>
+                        <p class="text-danger text-center text-bold" id="loginerror"></p>
+                  
             </div>
         </div>
         <br><br>
@@ -110,26 +130,28 @@
             </div> 
             <form action="find-work" method="post">
                 {% csrf_token %}
-                <label for="">Enter Price</label>
+                <label for="">Offer Price</label>
+                <input type="hidden" name="work" id="workid">
                 <input type="number" name="price" class="form-control" placeholder="E.g, 1200" id="">
                 <label for="">Describe Your Service</label>
                 <textarea name="description" id="" cols="30" rows="3" class="form-control" placeholder="Describe what you offer"></textarea>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-warning">Send Offer</button></form>
+        <button type="submit" class="btn btn-warning">Send Offer</button></form>
       </div>
     </div>
   </div>
 </div>
 <!-- Js Code Below -->
  <script>
-    function chkapply(title,description,budget,deadline,location){
+    function chkapply(id,title,description,budget,deadline,location){
         {% if user.is_authenticated %}
             $('#applyModal').modal('show'); 
             $('#title').text(title); $('#description').text(description);
             $('#budget').text(budget); $('#deadline').text(deadline);
             $('#location').text(location);
+            $('#workid').val(id);
 
         {% else %}
             $('#loginerror').html("You  need to <a href='login'>login</a> first!")
@@ -150,7 +172,9 @@
                     +'<p><i class="fas fa-money-bill-wave text-white bg-gray rounded-30 p-2"></i> Rs. {{work.budget}}</p> '
                     +'<p><i class="fas fa-clock text-white bg-gray rounded-30 p-2"></i> {{work.deadline.date}}</p>'
                 +'</div>'
-                +'<button class="btn-yellow mx-3" onclick="chkapply(`{{work.title}}`)" id="apply-btn">Apply for Work</button><p class="text-danger text-center text-bold" id="loginerror"></p>';
+                +'{% if work.id in work_offers %} <h6 class="text-danger text-center">Already Applied!</h6>'
+                +'{% else %}'
+                +'<button class="btn-yellow mx-3" onclick="chkapply(`{{work.id}}`,`{{work.title}}`,`{{work.description}}`,`{{work.budget}}`,`{{work.deadline.date}}`,`{{work.location}}`)" id="apply-btn">Apply for Work</button><p class="text-danger text-center text-bold" id="loginerror"></p>{% endif %}';
                 $("#detailbox").html(html);
                 
       }

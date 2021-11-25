@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-
 from django.contrib.auth import authenticate,login as authlogin,logout as authlogout
 from django.contrib import messages
 from Home.models import Service
-from Worker.models import Worker
+from Worker.models import Worker,Offer
+from django.db.models import Count, Q
 from Buyer.models import Buyer, Work
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import random
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -67,8 +68,33 @@ def logout(request):
     return render(request,"login.html")
 
 def find_work(request):
+    if request.method=="POST":
+        workid=request.POST['work']
+        work=Work.objects.get(id=workid)
+        price=request.POST['price']
+        description=request.POST['description']
+        offer_by=request.user
+        offer =Offer(budget=price,description=description,work=work,offer_by=offer_by)
+        offer.save()
+        messages.success(request, 'Offer Send Successfully. Wait for Buyer Message')
+        return redirect("find-work")
+    work_list=Work.objects.filter(status="available").annotate(offer_count=Count('offer')).order_by('-posted_at')
+     #Pagination
+    page = request.GET.get('page', 1)
+    paginator = Paginator(work_list, 8)
+    try:
+        works = paginator.page(page)
+    except PageNotAnInteger:
+        works = paginator.page(1)
+    except EmptyPage:
+        works = paginator.page(paginator.num_pages)
+    if request.user.is_authenticated:
+        offers=Offer.objects.filter(offer_by=request.user).values_list('work_id', flat=True)
+    else:
+        offers=Offer.objects.filter(offer_by=0).values_list('work_id', flat=True)
     context={
-        "works":Work.objects.filter(status="available").order_by('-posted_at')
+        "works":works,
+        "work_offers":offers
     }
     return render(request,"find_work.html",context)
 
@@ -95,6 +121,24 @@ def post_work(request):
     else:
         messages.warning(request, 'Your need to login as Buyer to Post Task!')
         return redirect('index')
+
+def search(request):
+    if request.method=="GET":
+        query=request.GET['query']
+        location=request.GET['location']
+        budget=request.GET['budget']
+        maxv=budget.split("-",1)[1]
+        minv=budget.rpartition('-')[0]
+    if request.user.is_authenticated:
+        offers=Offer.objects.filter(offer_by=request.user).values_list('work_id', flat=True)
+    else:
+        offers=Offer.objects.filter(offer_by=0).values_list('work_id', flat=True)
+        
+    context={
+        "works":Work.objects.filter(Q(status="available") & Q(title__contains=query) & Q(location__contains=location) & Q(budget__gte=minv) & Q(budget__lte=maxv)).annotate(offer_count=Count('offer')).order_by('-posted_at'),
+        "work_offers": offers
+    }
+    return render(request,"find_work.html",context)
 
 
 def profile(request):
