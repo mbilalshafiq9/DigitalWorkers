@@ -66,7 +66,7 @@ def logout(request):
     authlogout(request)
     messages.warning(request, 'Your are logout successfully')
     return render(request,"login.html")
-
+# Find Work Function
 def find_work(request):
     if request.method=="POST":
         workid=request.POST['work']
@@ -97,7 +97,7 @@ def find_work(request):
         "work_offers":offers
     }
     return render(request,"find_work.html",context)
-
+# POST A TASK Function
 def post_work(request):
     if request.method=="POST":
         title=request.POST['title']
@@ -120,7 +120,7 @@ def post_work(request):
         return render(request,"post_work.html",context)
     else:
         messages.warning(request, 'Your need to login as Buyer to Post Task!')
-        return redirect('index')
+        return redirect('login')
 
 def search(request):
     if request.method=="GET":

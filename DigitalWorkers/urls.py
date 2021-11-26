@@ -30,6 +30,8 @@ admin.site.index_title = "Welcome to Digital Workers Admin Panel"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('Home.urls')),
+    path('buyer/', include('Buyer.urls')),
+    path('worker/', include('Worker.urls')),
 
     # GET STATIC and Uploaded Media FIles
     url(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 

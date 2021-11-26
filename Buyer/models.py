@@ -33,3 +33,13 @@ class Work(models.Model):
     def __str__(self):
         worker=self.title
         return worker
+
+# class Order(models.Model):
+#     id = models.BigAutoField(primary_key=True)
+#     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, null=True)
+#     ordered_at=models.DateTimeField(auto_now_add=True)
+#     status=models.CharField(max_length=60, null=True, default='active')
+
+#     def __str__(self):
+#         worker=self.offer
+#         return worker

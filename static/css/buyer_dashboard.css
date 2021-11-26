@@ -1,0 +1,15 @@
+.nav-link > .active{
+    color: #EEC120 ;
+}
+
+.user-img{
+    border:3px solid #EEC120; border-radius:50%;
+    width:120px; height:120px;padding:10px; 
+    background:white;
+}
+#pills-tab >.nav-item > .nav-link{
+    color: white !important;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link{
+    background-color: #EEC120 !important;
+}

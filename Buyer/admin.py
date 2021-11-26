@@ -5,3 +5,4 @@ from Buyer.models import Buyer, Work
 
 admin.site.register(Buyer)
 admin.site.register(Work)
+# admin.site.register(Order)

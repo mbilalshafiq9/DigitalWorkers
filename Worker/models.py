@@ -26,10 +26,12 @@ class Worker(models.Model):
 class Offer(models.Model):
     id = models.BigAutoField(primary_key=True)
     budget = models.IntegerField( null=True)
+    due_date = models.DateTimeField( null=True)
     description = models.TextField( null=True)
     offer_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     work = models.ForeignKey(Work, on_delete=models.CASCADE, null=True)
     offer_at = models.DateTimeField(auto_now_add=True)
+    offer_to = models.CharField(max_length=120, null=True)
 
     def __str__(self):
         offer=self.description

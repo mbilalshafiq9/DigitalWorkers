@@ -1,0 +1,47 @@
+{% extends 'Buyer/layout.html' %}
+{% block title %} Work Offers | Dashboard Digital Workers{% endblock title %}
+{% block offers %}active{% endblock offers %}
+{% load static %}
+
+{% block body %}
+
+    <!-- Dashboard Tab -->
+<div class="box m-1 bg-light  p-4" >
+    <h4>Offers for ({{work.title}}) </h4>
+    <hr style="width: 30%; float:left; margin:0;border:1px solid gray;"> <br>
+    <!-- Work Tabs -->
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active bg-white" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <div class="table-responsive">
+                <table class="table ">
+                    <tr>
+                        <th>Buyer</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Offer at</th>
+                        <th>Action</th>
+                    </tr>
+                    {% if offers %}
+                    {% for offer in offers %}
+                    <tr>
+                        <td>{{offer.offer_by.name}}</td>
+                        <td>Rs.{{offer.budget}}</td>
+                        <td>{{offer.description}}</td>
+                        <td>{{offer.offer_at|timesince}} ago</td>
+                        <form action="{% url 'offers' %}" method="POST"> <input type="hidden" name="wid" value="{{work.id}}" > <input type="hidden" name="offer" value="{{offer.id}}" >
+                            
+                        <td><button class="btn btn-sm btn-info">Send Message</button><button  type="submit" class="btn btn-sm btn-warning">Accept Offer</a></td></form>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <h6 class="text-danger">No Result Found</h6>
+                    {% endif %}
+                </table>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+{% endblock body %}
+
