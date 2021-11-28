@@ -107,7 +107,10 @@
                         <p><i class="fas fa-money-bill-wave text-white bg-gray rounded-30 p-2"></i> Rs. {{works.0.budget}}</p> 
                         <p><i class="fas fa-clock text-white bg-gray rounded-30 p-2"></i> {{works.0.deadline.date}}</p>
                     </div>
-                        <button class="btn-yellow mx-3" onclick="chkapply('{{works.0.id}}','{{works.0.title}}','{{works.0.description}}','{{works.0.budget}}','{{works.0.deadline.date}}','{{works.0.location}}')" id='apply-btn'>Apply for Work</button>
+                    {% if works.0.id in work_offers %} <h6 class="text-danger text-center">Already Applied!</h6>
+                    {% else %}
+                        <button class="btn-yellow mx-3" onclick="chkapply('{{works.0.id}}','{{works.0.title}}','{{works.0.description}}','{{works.0.budget}}','{{works.0.deadline.date}}','{{works.0.location}}','{{works.0.posted_by.id}}')" id='apply-btn'>Apply for Work</button>
+                        {% endif %}
                         <p class="text-danger text-center text-bold" id="loginerror"></p>
             </div>
             {% endif %}
@@ -137,6 +140,7 @@
             <form action="find-work" method="post">
                 {% csrf_token %}
                 <input type="hidden" name="work" id="workid">
+                <input type="hidden" name="offer_to" id="posted_by">
                 <div class="row">
                     <div class="col-md-6">
                         <label for="">Offer Price</label>
@@ -159,15 +163,15 @@
 </div>
 <!-- Js Code Below -->
  <script>
-    function chkapply(id,title,description,budget,deadline,location){
-        {% if user.is_authenticated %}
+    function chkapply(id,title,description,budget,deadline,location,posted_by){
+        {% if user.is_authenticated and user.role == 'worker' %}
             $('#applyModal').modal('show'); 
             $('#title').text(title); $('#description').text(description);
             $('#budget').text('Rs.'+budget); $('#deadline').text(deadline);
-            $('#workid').val(id);
+            $('#workid').val(id);$('#posted_by').val(posted_by);
 
         {% else %}
-            $('#loginerror').html("You  need to <a href='login'>login</a> first!")
+            $('#loginerror').html("First You need to <a href='login'>login</a> as a Worker!")
         {% endif %}
     }
      function detailbox(id){
@@ -187,7 +191,7 @@
                 +'</div>'
                 +'{% if work.id in work_offers %} <h6 class="text-danger text-center">Already Applied!</h6>'
                 +'{% else %}'
-                +'<button class="btn-yellow mx-3" onclick="chkapply(`{{work.id}}`,`{{work.title}}`,`{{work.description}}`,`{{work.budget}}`,`{{work.deadline.date}}`,`{{work.location}}`)" id="apply-btn">Apply for Work</button><p class="text-danger text-center text-bold" id="loginerror"></p>{% endif %}';
+                +'<button class="btn-yellow mx-3" onclick="chkapply(`{{work.id}}`,`{{work.title}}`,`{{work.description}}`,`{{work.budget}}`,`{{work.deadline.date}}`,`{{work.location}}`,`{{work.posted_by.id}}`)" id="apply-btn">Apply for Work</button><p class="text-danger text-center text-bold" id="loginerror"></p>{% endif %}';
                 $("#detailbox").html(html);
                 
       }

@@ -28,7 +28,7 @@ def login(request):
             authlogin(request,user)
             if user.role=='worker':
                 messages.success(request, 'Your are login Successfully.')
-                return redirect('profile')
+                return redirect('index')
             else:
                 messages.success(request, 'Your are login Successfully.')
                 return redirect('index')
@@ -58,6 +58,9 @@ def register(request):
             return redirect('register')
         nuser =User.objects.create_user(name,email,role,password)
         nuser.save()
+        if role == 'buyer':
+            buyer =Buyer(user=request.user)
+            buyer.save()
         messages.success(request, 'Your Account is created sucessfully.')
     
     return render(request,"register.html")
@@ -72,12 +75,14 @@ def find_work(request):
         workid=request.POST['work']
         work=Work.objects.get(id=workid)
         price=request.POST['price']
+        due_date=request.POST['due_date']
+        offer_to=request.POST['offer_to']
         description=request.POST['description']
         offer_by=request.user
-        offer =Offer(budget=price,description=description,work=work,offer_by=offer_by)
+        offer =Offer(budget=price,due_date=due_date,description=description,work=work,offer_by=offer_by,offer_to=offer_to)
         offer.save()
         messages.success(request, 'Offer Send Successfully. Wait for Buyer Message')
-        return redirect("find-work")
+        return redirect("find_work")
     work_list=Work.objects.filter(status="available").annotate(offer_count=Count('offer')).order_by('-posted_at')
      #Pagination
     page = request.GET.get('page', 1)

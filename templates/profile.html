@@ -51,35 +51,34 @@
               <div class='col-md-6'>
                 <div class="form-input m-1">
                   <i class="fas fa-phone mt-2"></i>
-                  <input type="text" name="phoneno" oninput='this.className = "form-control px-4"'  class="input-txt" placeholder="Your Phone No." required>
+                  <input type="text" name="phoneno" oninput='this.className = "form-control px-4"'  value="{{user.phoneno}}"  class="input-txt" placeholder="Your Phone No." required>
               </div>
               </div>
               <div class='col-md-6'>
                 <div class="form-input m-1">
                   <i class="fas fa-id-card mt-2"></i>
-                  <input type="text" name="cnic" oninput='this.className = "form-control px-4"'  class="input-txt" placeholder=" CNIC No." required>
+                  <input type="text" name="cnic" oninput='this.className = "form-control px-4"'  value="{{user.cnic}}"  class="input-txt" placeholder=" CNIC No." required>
               </div>
               </div>
               <div class='col-md-6 mt-3'>
                 <h6>Gender</h6>
-                <span class="mr-5"> <input type="radio" name="gender" value="male" id=""> Male</span>
-                <span class="mr-5"> <input type="radio" name="gender" value="male" id=""> Female</span>
-                <span class="mr-5"> <input type="radio" name="gender" value="male" id=""> Other</span>
+                <span class="mr-5"> <input type="radio" name="gender" value="male" {% if user.gender == 'male' %}checked{% endif %} id=""> Male</span>
+                <span class="mr-5"> <input type="radio" name="gender" value="female"{% if user.gender == 'female' %}checked{% endif %} id=""> Female</span>
+                <span class="mr-5"> <input type="radio" name="gender" value="other" {% if user.gender == 'other' %}checked{% endif %}id=""> Other</span>
               </div>
               <div class='col-md-6 mt-3'>
                 <h6>City</h6>
                 <select name="city" id="" class="form-control">
                   <option value="" disabled>Select City</option>
-                  <option value="Sahiwal" >Sahiwal </option>
-                  <option value="Lahore" >Lahore </option>
-                  <option value="Faislabad" >Faislabad </option>
-                  <option value="Multan" >Multan </option>
+                  <option value="Sahiwal" {% if user.city == 'Sahiwal' %}selected{% endif %}>Sahiwal </option>
+                  <option value="Lahore" {% if user.city == 'Lahore' %}selected{% endif %}>Lahore </option>
+                  <option value="Multan" {% if user.city == 'Multan' %}selected{% endif %}>Multan </option>
                 </select>
               </div>
               <div class='col-md-12'>
                 <div class="form-input mx-1">
                   <i class="fas fa-map-marker-alt mt-2"></i>
-                  <input type="text" name="address" oninput='this.className = "form-control px-4"'  class="input-txt" placeholder="Your Present Address" required>
+                  <input type="text" name="address" oninput='this.className = "form-control px-4"'value="{{user.address}}"   class="input-txt" placeholder="Your Present Address" required>
               </div>
               </div>
             </div>

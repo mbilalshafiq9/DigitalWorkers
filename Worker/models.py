@@ -32,7 +32,20 @@ class Offer(models.Model):
     work = models.ForeignKey(Work, on_delete=models.CASCADE, null=True)
     offer_at = models.DateTimeField(auto_now_add=True)
     offer_to = models.CharField(max_length=120, null=True)
+    is_accepted=models.BooleanField( default=False)
 
     def __str__(self):
         offer=self.description
         return offer
+
+class Order(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    offer = models.ForeignKey(Offer, on_delete=models.CASCADE, null=True)
+    order_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True,related_name='order_by')
+    order_to = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True,related_name='order_to')
+    ordered_at=models.DateTimeField(auto_now_add=True)
+    status=models.CharField(max_length=60, null=True, default='active')
+
+    def __str__(self):
+        order=self.offer.description
+        return order

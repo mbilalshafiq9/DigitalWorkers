@@ -34,12 +34,15 @@ class Work(models.Model):
         worker=self.title
         return worker
 
-# class Order(models.Model):
-#     id = models.BigAutoField(primary_key=True)
-#     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, null=True)
-#     ordered_at=models.DateTimeField(auto_now_add=True)
-#     status=models.CharField(max_length=60, null=True, default='active')
+class Message(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, related_name="sender")
+    reciever = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True , related_name="reciever")
+    message = models.TextField( null=True)
+    sent_at=models.DateTimeField(auto_now_add=True)
+    is_read=models.BooleanField(null=True, default=False)
 
-#     def __str__(self):
-#         worker=self.offer
-#         return worker
+    def __str__(self):
+        message=self.message
+        return message
+

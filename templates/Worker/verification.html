@@ -1,0 +1,36 @@
+{% extends 'Worker/layout.html' %}
+{% block title %}Profile | Digital Workers{% endblock title %}
+{% block profile %}active{% endblock profile %}
+{% load static %}
+
+{% block body %}
+
+    <!-- Dashboard Tab -->
+<div class="box m-1 bg-light p-3">
+    <h5 class="text-center">Verification</h5>
+    <p>Please Make Sure to upload your original CNIC picture also came for a short interview in our respective city office. Thank you!</p
+    <hr class="text-center"style="width: 30%; border:1px solid gray">
+   <form action="{% url 'verification' %}" method="post">
+   {% csrf_token %}
+       <div class="row">
+        <div class="col-md-5 text-center mt-3">
+         <img src="{% static 'images/id-card.png' %}"class="w-75 p-2 mt-3" alt="" srcset="">
+        </div>
+           <div class="col-md-7">
+             <h5 class="text-center">Upload Your CNIC Back and Front Picture</h5>
+                <label for="">Front Picture of CNIC:</label>
+                <input type="file" name="cnic_front_pic" id=""  required class="form-control"> <br>
+                <label for="">Back Picture of CNIC:</label>
+                <input type="file" name="cnic_back_pic" id="" required class="form-control">
+           </div>
+          <div class='col-md-12 mt-4 text-center'>
+            <input type="submit" name="submit" value="Update Profile" class="text-center btn-yellow"id="">
+          </div>
+       </div> <br>
+    
+   </form>
+</div>
+
+
+{% endblock body %}
+

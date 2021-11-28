@@ -1,0 +1,60 @@
+{% extends 'Worker/layout.html' %}
+{% block title %}Profile | Digital Workers{% endblock title %}
+{% block profile %}active{% endblock profile %}
+{% load static %}
+
+{% block body %}
+
+    <!-- Dashboard Tab -->
+<div class="box m-1 bg-light p-3">
+    <h4 class="text-center">Update you Profile</h4>
+    <hr class="text-center"style="width: 30%; border:1px solid gray">
+   <form action="{% url 'worker_profile' %}" method="post">
+   {% csrf_token %}
+       <div class="row">
+           <div class="col-md-6">
+            <label for="">Your Name</label>
+            <input type="text" name="name" value="{{request.user.name}}" class="form-control"> 
+           </div>
+           <div class="col-md-6 ">
+            <label for="">Your Email</label>
+            <input type="text" name="email" readonly value="{{request.user.email}}" class="form-control">
+           </div>
+           <div class="col-md-6 mt-3">
+            <label for="">Phone No:</label>
+            <input type="text" name="phoneno" value="{{worker.phoneno}}" class="form-control">
+           </div>
+           <div class="col-md-6 mt-3">
+            <label for="">CNIC No:</label>
+            <input type="text" name="cnic" value="{{worker.cnic}}" class="form-control">
+           </div>
+           <div class='col-md-6 mt-3'>
+            <h6>City</h6>
+            <select name="city" id="" class="form-control">
+              <option value="" disabled>Select City</option>
+              <option value="Sahiwal" {% if worker.city == 'Sahiwal' %}selected{% endif %}>Sahiwal </option>
+              <option value="Lahore" {% if worker.city == 'Lahore' %}selected{% endif %}>Lahore </option>
+              <option value="Multan" {% if worker.city == 'Multan' %}selected{% endif %}>Multan </option>
+            </select>
+          </div>
+          <div class='col-md-6 mt-3'>
+            <h6>Gender</h6>
+            <span class="mr-5"> <input type="radio" name="gender" value="male" {% if worker.gender == 'male' %}checked{% endif %} id=""> Male</span>
+            <span class="mr-5"> <input type="radio" name="gender" value="female"{% if worker.gender == 'female' %}checked{% endif %} id=""> Female</span>
+            <span class="mr-5"> <input type="radio" name="gender" value="other" {% if worker.gender == 'other' %}checked{% endif %}id=""> Other</span>
+          </div>
+          <div class='col-md-12 mt-3'>
+            <h6>Address</h6>
+            <input type="text" name="address" value="{{worker.address}}" class="form-control"id="">
+          </div>
+          <div class='col-md-12 mt-3'>
+            <input type="submit" name="submit" value="Update Profile" class="text-center btn-yellow"id="">
+          </div>
+       </div> <br>
+    
+   </form>
+</div>
+
+
+{% endblock body %}
+

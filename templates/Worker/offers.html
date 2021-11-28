@@ -1,4 +1,4 @@
-{% extends 'Buyer/layout.html' %}
+{% extends 'Worker/layout.html' %}
 {% block title %} Work Offers | Dashboard Digital Workers{% endblock title %}
 {% block offers %}active{% endblock offers %}
 {% load static %}
@@ -7,31 +7,34 @@
 
     <!-- Dashboard Tab -->
 <div class="box m-1 bg-light  p-4" >
-    <h4>Offers for ({{work.title}}) </h4>
-    <hr style="width: 30%; float:left; margin:0;border:1px solid gray;"> <br>
+    <h4>Your Offers ({{offers.count}}) </h4>
+    <hr style="width: 20%; float:left; margin:0;border:1px solid gray;"> <br>
     <!-- Work Tabs -->
         <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active bg-white" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                 <div class="table-responsive">
                 <table class="table ">
                     <tr>
-                        <th>Buyer</th>
+                        <th>Offer To</th>
                         <th>Price</th>
                         <th>Description</th>
+                        <th>Due Date</th>
                         <th>Offer at</th>
-                        <th>Action</th>
+                        <th>Status</th>
                     </tr>
                     {% if offers %}
                     {% for offer in offers %}
                     <tr>
                         <td>{{offer.offer_by.name}}</td>
                         <td>Rs.{{offer.budget}}</td>
-                        <td>{{offer.description}}</td>
-                        <td>{{offer.offer_at|timesince}} ago</td>
-                        <form action="{% url 'offers' %}" method="POST"> <input type="hidden" name="wid" value="{{work.id}}" > <input type="hidden" name="oid" value="{{offer.id}}" >
-                            {% csrf_token %}
-                        <td><button class="btn btn-sm btn-info">Send Message</button><button  type="submit" class="btn btn-sm btn-warning">Accept Order</a></td></form>
-                    </tr>
+                        <td> {{offer.description|truncatechars:35 }}</td>
+                        <td>{{offer.due_date}} ago</td>
+                        <td>{{offer.offer_at|timesince}} ago</td> 
+                        {% if offer.is_accepted == True %}
+                            <td><b class="text-success">Accepted<b><br><a href="" class="btn btn-sm btn-info text-white">Send Message</a></td>  </tr>
+                        {% else %}
+                            <td><p class="text-info">Waiting in Review<p></td>  </tr>
+                        {% endif %}
                     {% endfor %}
                     {% else %}
                     <h6 class="text-danger">No Result Found</h6>

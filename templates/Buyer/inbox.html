@@ -1,0 +1,58 @@
+{% extends 'Buyer/layout.html' %}
+{% block title %} Inbox Messages | Digital Workers{% endblock title %}
+{% block messages %}active{% endblock messages %}
+{% load static %}
+
+{% block body %}
+
+    <!-- Dashboard Tab -->
+<div class="message-box  bg-light border " style="height:40rem">
+    <div class="row">
+        <div class="col-md-4 pr-0 contact-col" style="height: 40rem; overflow:auto">
+            <h6 class="p-3 bg-white border-bottom text-center">All Contacts</h6>
+            {% for contact in contacts %}
+             <a href="inbox?sender={{contact.id}}"  class="text-dark">
+             <div class="contact-box p-2 m-2 " >
+                <h6 class="" style="position: absolute; left: 20;">{{contact.name}}</h6> <small class="text-gray" style="position: absolute;right: 0; margin-right: 20px;">1hour 13 minutes ago</small> <br> 
+                <small>This is dummy last message</small>
+            </div> </a>
+            {% endfor %}
+        </div>
+        <div class="col-md-8 p-0 bg-white border" >
+            <h6 class="p-3 bg-white border-bottom text-center">{{inboxs.0.sender.name}}</h6>
+            <div style="height: 28rem; overflow:auto" id="scroll_box">
+            {% for inbox in inboxs  %}
+            {% if inbox.sender == request.user %}
+                <div class="message-box p-2 m-2 w-75 bg-light float-left">
+                    <h6 class="">Me</h6> <small class="float-right text-gray"  style="margin-top:-20px">{{inbox.sent_at|timesince}} ago</small>
+                    <small>{{inbox.message}}</small>
+                    <small class="float-right"><i class="fas fa-check text-primary"></i></small>
+                </div>
+            {% else %}
+                <div class="message-box p-2 m-2 w-75 bg-light float-right">
+                    <h6 class="">{{inbox.sender.name}}</h6> <small class="float-right text-gray" style="margin-top:-20px" >{{inbox.sent_at|timesince}} ago</small>
+                    <small>{{inbox.message}}</small>
+                </div>
+            {% endif %}
+            {% endfor %}
+          
+            </div>
+            <div class="send-box ">
+                <form action="" method="post"> <input type="hidden" name="rid" value="{{request.GET.sender}}">
+                {% csrf_token %}
+                <textarea name="message" id="" class="form-control" required cols="120" rows="3" placeholder="Write your message here..."></textarea>
+                <button type="submit" class="btn btn-sm btn-success m-2"><i class="fas fa-paper-plane"></i>  Send</button>
+                <button class="btn btn-sm btn-info m-2">Create an Offer</button></form>
+            </div>
+        </div>
+        
+       
+    </div>
+</div>
+
+<script>
+    var chatHistory = document.getElementById("scroll_box");
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+</script>
+{% endblock body %}
+

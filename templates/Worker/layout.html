@@ -21,8 +21,6 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/assets/owl.theme.default.min.css">
       <!--owlcarousel js file for our team section -->
 </head>
-{% comment %} Chk user login as Buyer {% endcomment %}
-
 {% if messages %}
 
 <ul class="alert-messages">
@@ -40,7 +38,7 @@
 {% endif %}
 <body > 
 
-   <!-- Navbar -->
+   <!-- TOP Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-gray ">
           <div class="container-fluid">
         <a class="navbar-brand" href="home"><img src="{% static 'images/DIGITAL WORKERS.png' %}" width="60"  alt=""> Digital Workers</a>
@@ -106,12 +104,14 @@
              <a href="" class="btn btn-outline-danger btn-sm">Deactivate</a>
              <hr> {% endcomment %}
              <ul class="text-left  custom-nav p-0 ">
-             <li class="nav-link"><a href="{% url 'buyer_dashboard' %}" class=" text-gray fs-16 {% block dashboard %}{% endblock dashboard %}" ><i class="fas fa-tachometer-alt "></i> Dashboard</a>  </li> <hr class="my-2">
-             <li class="nav-link"><a href="{% url 'posted_works' %}" class="text-gray fs-16 {% block posted_works %}{% endblock posted_works %}" ><i class="fas fa-thumbtack"></i> Posted Works</a>  </li><hr class="my-2">
-             <li class="nav-link"> <a href="{% url 'orders' %}" class=" text-gray fs-16 {% block orders %}{% endblock orders %}"><i class="fas fa-boxes"></i> Orders</a> </li><hr class="my-2">
-             <li class="nav-link"><a href="{% url 'inbox' %}" class="  text-gray fs-16 {% block messages %}{% endblock messages %}"><i class="fas fa-comments"></i> Messages</a>  </li><hr class="my-2">
-             <li class="nav-link"><a href="{% url 'profile' %}" class="  text-gray fs-16 {% block profile %}{% endblock profile %}"><i class="fas fa-user"></i> Profile</a>  </li><hr class="my-2">
-             <li class="nav-link"><a href="{% url 'change_password' %}" class="{% block change_pass %}{% endblock change_pass %}  text-gray fs-16"><i class="fas fa-key"></i> Change Email &amp; Password</a>  </li><hr class="my-2">
+             <li class="nav-link"><a href="{% url 'worker_dashboard' %}" class=" text-gray fs-16 {% block dashboard %}{% endblock dashboard %}" ><i class="fas fa-tachometer-alt "></i> Dashboard</a>  </li> <hr class="my-2">
+             <li class="nav-link"><a href="{% url 'worker_offers' %}" class="text-gray fs-16 {% block offers %}{% endblock offers %}" ><i class="fas fa-thumbtack"></i> Your Offers</a>  </li><hr class="my-2">
+             <li class="nav-link"> <a href="{% url 'worker_orders' %}" class=" text-gray fs-16 {% block orders %}{% endblock orders %}"><i class="fas fa-boxes"></i> Orders</a> </li><hr class="my-2">
+             <li class="nav-link"><a href="{% url 'worker_inbox' %}" class="  text-gray fs-16 {% block messages %}{% endblock messages %}"><i class="fas fa-comments"></i> Messages</a>  </li><hr class="my-2">
+             <li class="nav-link"><a href="{% url 'skills' %}" class="  text-gray fs-16 {% block skills %}{% endblock skills %}"><i class="fas fa-tasks"></i> Your Skills</a>  </li><hr class="my-2">
+             <li class="nav-link"><a href="{% url 'worker_profile' %}" class="  text-gray fs-16 {% block profile %}{% endblock profile %}"><i class="fas fa-user"></i> Profile</a>  </li><hr class="my-2">
+              <li class="nav-link"><a href="{% url 'verification' %}" class="  text-gray fs-16 {% block verification %}{% endblock verification %}"><i class="fas fa-check"></i> Verification</a>  </li><hr class="my-2">
+             <li class="nav-link"><a href="{% url 'worker_change_password' %}" class="{% block change_pass %}{% endblock change_pass %}  text-gray fs-16"><i class="fas fa-key"></i> Change Password</a>  </li><hr class="my-2">
            
              <li class="mb-5 nav-link"><a href="{% url 'logout' %}" class=" text-gray fs-16 "><i class="fas fa-sign-out-alt"></i> Logout</a> </li>
              </ul>
@@ -229,9 +229,20 @@
   <!-- OWL carousel Slider JS -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js"></script>
 
-
+<!-- Scsript for Skills Selection -->
+ <script>
+    $(document).ready(function(){
+      $('.chkbox').click(function(){
+        var txt="";
+          $('.chkbox:checked').each(function(){
+            txt+=$(this).val()+","
+          });
+          $('#chkbox_values').val(txt);
+      });
+    });
+ </script>
+<!-- Script for View Password -->
   <script>
- 
         $(".reveal").on('click',function() {
           var $pwd = $(".pwd");
           if ($pwd.attr('type') === 'password') {

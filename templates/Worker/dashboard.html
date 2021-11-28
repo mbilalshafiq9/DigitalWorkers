@@ -1,0 +1,36 @@
+{% extends 'Worker/layout.html' %}
+{% block title %}Buyer Dashboard | Digital Workers{% endblock title %}
+{% block dashboard %}active{% endblock dashboard %}
+{% load static %}
+
+{% block body %}
+
+    <!-- Dashboard Tab -->
+<div class="box m-1 bg-light p-3 ">
+    <div class="row">
+        <div class="primary-box p-2 m-2 w-22 text-center">
+            <h5>Rs.2300</h5> 
+            <h6>Total Earnings (Yearly)</h6>
+        </div>
+        <div class="info-box p-2 m-2 w-22 text-center">
+            <h5>Rs.2300</h5>
+            <h6>Total Earnings (Monthly)</h6>
+        </div>
+        <div class="warning-box p-2 m-2 w-22 text-center">
+            <h5>02</h5>
+            <h6>Active Orders</h6>
+        </div>
+        <div class="success-box p-2 m-2 w-22 text-center">
+            <h5>23</h5>
+            <h6>Total Orders </h6>
+        </div>
+    </div>
+    
+    <i class="fas fa-book-open text-center p-4" style="background-color:#EEC120; color:white;font-size:4rem; margin-top:20%; border-radius:50%"></i>
+    <h5 class="mt-3">You have no activities yet!</h5> <br>
+    <button href="restaurants.php" class=" btn-gray">Find WORK</button>
+</div>
+
+
+{% endblock body %}
+
