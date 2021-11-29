@@ -40,7 +40,8 @@ def posted_works(request):
     context={
         "works_ava":Work.objects.filter(posted_by=request.user).filter(status="available").annotate(offer_count=Count('offer')).order_by('-posted_at'),
         "orders":Order.objects.filter(order_by=request.user).filter(status="active").order_by('-ordered_at'),
-        "orders_com":Order.objects.filter(order_by=request.user).filter(status="completed").order_by('-ordered_at')
+        "orders_com":Order.objects.filter(order_by=request.user).filter(status="completed").order_by('-ordered_at'),
+        "reviews":Review.objects.filter(buyer=request.user)
     }
     return render(request,"Buyer/posted_works.html", context)
 

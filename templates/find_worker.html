@@ -55,18 +55,30 @@
             <div class="col-md-12">
                 <div class="row"> 
                     {% for worker in worker %} 
+                    
                     <div class="col-lg-4 col-xl-3 col-md-6 p-2 "> 
                         <div class="work-box p-3  bg-white rounded border" id="work-box" onclick="detailbox('{{worker.id}}')" >
                         <img src="{% static 'images/worker.jpg' %}" class="border border-warning rounded-50 p-2 rounded mx-auto d-block" width="70" alt="work_icon" srcset=""> 
                         
-                        <div class="inner-box text-center  mt-3">
-                            <h5 class="mt-4">{{worker.user.name}}</h5>
-                            <b>4.5 <i class="fas fa-star text-warning"></i></b> <br>
-                            <p class="float-left text-gray mt-3"><i class="fas fa-thumbtack"></i> {{worker.skills|truncatechars:25}}</p> <br>
-                            <p class="float-left text-gray"><i class="fas fa-map-marker-alt"></i> {{worker.address}}</p> <br>
-                            <a class=" btn btn-sm btn-dark" href="/buyer/inbox?sender={{worker.user.id}}">Contact <i class="fas fa-paper-plane"></i></a>
+                        <div class="inner-box  mt-3">
+                            <h5 class="mt-4  text-center">{{worker.user.name}}</h5>
+                            <p class="text-bold text-center"><span id="rating{{worker.id}}"></span> <i class="fas fa-star text-warning"></i></p>
+                            <p class=" text-gray mt-3"><i class="fas fa-thumbtack"></i> {{worker.skills|truncatechars:25}}</p> 
+                            <p class=" text-gray"><i class="fas fa-map-marker-alt"></i> {{worker.address}}</p> 
+                           <p class="text-center"> <a class=" btn btn-sm btn-dark" href="/buyer/inbox?sender={{worker.user.id}}">Contact <i class="fas fa-paper-plane"></i></a></p>
                         </div>
                         </div>
+                        <script>
+                        var rate=0; var count=0;
+                        {% for review in reviews %}
+                        {% if review.worker.id == worker.user.id %}
+                        var rate= rate + {{review.rating}} ;
+                         console.log(rate);  count++;
+                        {% endif %} 
+                        {% endfor %}
+                        var avg_rating= rate / count ;
+                       document.getElementById('rating{{worker.id}}').innerText=avg_rating;
+                    </script>
                     </div>{% endfor %}
                 </div>
                  <!-- Pagination -->
@@ -99,6 +111,6 @@
         <br><br>
 
 <!-- Js Code Below -->
- 
+
 
 {% endblock body %}

@@ -88,7 +88,14 @@
                         <td>{{order.order_to.name}}</td>
                         <td>{{order.offer.description}} <h6 class="text-success">Rs.{{order.offer.budget}}</h6></td>
                         <td>{{order.ordered_at|timesince}} ago</td>
-                        <td><button type="submit" class="btn btn-sm btn-primary" onclick="reviewModal('{{order.order_to.id}}','{{order.id}}')" data-toggle="modal" data-target="#reviewModal">Give Review</button></td>
+                        {% for review in reviews %}
+                            {% if review.order.id == order.id  %}
+                            <td>{{review.rating}}  <i class="fas fa-star text-warning"></i> </td>
+                            {% else %}
+                                <td><button type="submit" class="btn btn-sm btn-primary" onclick="reviewModal('{{order.order_to.id}}','{{order.id}}')" data-toggle="modal" data-target="#reviewModal">Give Review</button></td>
+                            {% endif %}
+                        {% endfor %}
+                        
                     </tr>
                     {% endfor %}
                     {% else %}

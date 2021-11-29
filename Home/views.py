@@ -164,6 +164,8 @@ def profile(request):
             worker.cnic_back_pic=request.FILES.get('cnic_back_pic', 'images/blog-1.jpg')
             worker.cnic_front_pic=request.FILES.get('cnic_front_pic', 'images/blog-1.jpg')
             worker.save()
+            messages.success(request, 'Profile is Upated sucessfully.')
+            return redirect('index')
         else:
             user=request.user
             phoneno=request.POST['phoneno']
@@ -194,7 +196,7 @@ def dashboard(request):
 def find_worker(request):
     
     worker_list=Worker.objects.all()
-    review=Review.objects.all().aggregate(Sum('rating')/Count('id'))
+    reviews=Review.objects.all()
      #Pagination
     page = request.GET.get('page', 1)
     paginator = Paginator(worker_list, 8)
@@ -206,6 +208,7 @@ def find_worker(request):
         works = paginator.page(paginator.num_pages)
     context={
         "worker":works,
+        "reviews":reviews,
     }
     return render(request,"find_worker.html",context)
 
