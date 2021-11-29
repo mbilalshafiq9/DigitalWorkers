@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 # from django.contrib.auth import authenticate,login as authlogin,logout as authlogout
 from Buyer.models import Buyer,Work,Message
-from Worker.models import Offer,Order
+from Worker.models import Offer,Order, Review, Worker
 from django.db.models import Count , Q
 from Middlewares.auth_buyer import auth_middleware
 from django.contrib.auth import authenticate, get_user_model
@@ -18,11 +18,29 @@ def dashboard(request):
 
 @auth_middleware
 def posted_works(request):
-
+    # if request.method == "POST" and request.POST['accept_order']:
+    #     oid=request.POST['oid']
+    #     order=Order.objects.get(id=oid)
+    #     order.status="completed"
+    #     order.save()
+    #     messages.success(request, 'Order Accepted Successfully!')
+    #     return redirect("posted_works")
+    if request.method == "POST" and request.POST['review']:
+        wid=request.POST['workerid']
+        oid=request.POST['orderid']
+        rate=request.POST['rate']
+        description=request.POST['description']
+        worker=User.objects.get(id=wid)
+        order=Order.objects.get(id=oid)
+        buyer=User.objects.get(id=request.user.id)
+        review =Review(buyer=buyer,worker=worker,order=order,rating=rate,description=description)
+        review.save() 
+        messages.success(request, 'Review submitted successfully')
+        return redirect("posted_works")
     context={
         "works_ava":Work.objects.filter(posted_by=request.user).filter(status="available").annotate(offer_count=Count('offer')).order_by('-posted_at'),
         "orders":Order.objects.filter(order_by=request.user).filter(status="active").order_by('-ordered_at'),
-        "works_com":Work.objects.filter(posted_by=request.user).filter(status="completed").annotate(offer_count=Count('offer')).order_by('-posted_at')
+        "orders_com":Order.objects.filter(order_by=request.user).filter(status="completed").order_by('-ordered_at')
     }
     return render(request,"Buyer/posted_works.html", context)
 
@@ -53,10 +71,17 @@ def work_offers(request):
 
 @auth_middleware
 def orders(request):
+    if request.method == "POST" :
+        oid=request.POST['oid']
+        order=Order.objects.get(id=oid)
+        order.status="completed"
+        order.save()
+        messages.success(request, 'Order Accepted Successfully!')
+        return redirect("posted_works")
     context={
         "works_ava":Work.objects.filter(posted_by=request.user).filter(status="available").annotate(offer_count=Count('offer')).order_by('-posted_at'),
         "orders":Order.objects.filter(order_by=request.user).filter(status="active").order_by('-ordered_at'),
-        "works_com":Work.objects.filter(posted_by=request.user).filter(status="completed").annotate(offer_count=Count('offer')).order_by('-posted_at')
+        "orders_com":Order.objects.filter(order_by=request.user).filter(status="completed").order_by('-ordered_at')
     }
     return render(request,"Buyer/posted_works.html", context)
 
@@ -115,17 +140,17 @@ def inbox(request):
         inbox.save()
         messages.success(request, 'Message Sent Successfully!')
         return redirect("/buyer/inbox?sender="+rid)
-    if request.method=="GET" and request.GET.get('sender') :
+    if request.method=="GET" and request.GET.get('sender'):
         sender=request.GET.get('sender') 
     else:
         sender=1
     sender=User.objects.get(id=sender)
-    contacts = Message.objects.filter(reciever=request.user)
+    contacts = Message.objects.filter( Q(reciever=request.user) | Q(sender=sender) )
     senders = contacts.values_list('sender__id', flat=True).distinct()
     user = User.objects.filter(id__in=senders)
     context={
-        # "contacts":Message.objects.filter(sender__in=user).order_by('-sent_at').distinct(),
         "contacts":user,
+        "sender":sender,
         "inboxs":Message.objects.filter( Q(reciever=request.user) & Q(sender=sender) | Q(sender=request.user) & Q(reciever=sender) ).order_by("sent_at"),
     }
     return render(request,"Buyer/inbox.html", context)

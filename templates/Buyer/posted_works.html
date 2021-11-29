@@ -39,7 +39,7 @@
                         <td>{{work.posted_at|timesince}} ago</td>
                         <td>{{work.offer_count}}</td>
                         <form action="{% url 'offers' %}" method="get"> <input type="hidden" name="wid" value="{{work.id}}" >
-                        <td><button type="submit"  class="btn btn-sm btn-info">View Offers</button></form><button class="btn btn-sm btn-warning">Disable</a></td>
+                        <td><button type="submit"  class="btn btn-sm btn-info">View Offers</button></form></td>
                     </tr>
                     {% endfor %}
                     {% else %}
@@ -59,10 +59,13 @@
                     {% if orders %}
                     {% for order in orders %}
                     <tr>
-                        <td>{{order.order_by.name}}</td>
+                        <td>{{order.order_to.name}}</td>
                         <td>{{order.offer.description}} <h6 class="text-success">Rs.{{order.offer.budget}}</h6></td>
                         <td>{{order.ordered_at|timesince}} ago</td>
-                        <td><button class="btn btn-sm btn-success">Accept Order</button></td>
+                        <form action="{% url 'orders' %}" method="post">
+                        {% csrf_token %}
+                         <input type="hidden" name="oid" value="{{order.id}}">
+                        <td><input type="submit" class="btn btn-sm btn-success" name="accept_order" value="Accept Order"></td></form>
                     </tr>
                     {% endfor %}
                     {% else %}
@@ -70,24 +73,22 @@
                     {% endif %}
                 </table>
             </div>
-            <!-- Completed WOrks Tab -->
+            <!-- Completed Works Tab -->
             <div class="tab-pane fade bg-white" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                 <table class="table">
                     <tr>
-                        <th>Work Title</th>
-                        <th>Budget</th>
-                        <th>Posted at</th>
-                        <th>Offers</th>
+                         <th>Order To</th>
+                        <th>Offer Description</th>
+                        <th>Ordered at</th>
                         <th>Action</th>
                     </tr>
-                    {% if works_com %}
-                    {% for work in works_com %}
+                    {% if orders_com %}
+                    {% for order in orders_com %}
                     <tr>
-                        <td>{{work.title}}</td>
-                        <td>Rs.{{work.budget}}</td>
-                        <td>{{work.posted_at|timesince}} ago</td>
-                        <td>{{work.offer_count}}</td>
-                        <td><button class="btn btn-sm btn-info">View Offers</button><button class="btn btn-sm btn-warning">Disable</a></td>
+                        <td>{{order.order_to.name}}</td>
+                        <td>{{order.offer.description}} <h6 class="text-success">Rs.{{order.offer.budget}}</h6></td>
+                        <td>{{order.ordered_at|timesince}} ago</td>
+                        <td><button type="submit" class="btn btn-sm btn-primary" onclick="reviewModal('{{order.order_to.id}}','{{order.id}}')" data-toggle="modal" data-target="#reviewModal">Give Review</button></td>
                     </tr>
                     {% endfor %}
                     {% else %}
@@ -98,6 +99,55 @@
         </div>
 </div>
 
+<!-- Review Modal -->
+<div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reviewModalLabel">Review Your Experience</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           
+            <form action="{% url 'posted_works' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="workerid" id="workerid">
+                <input type="hidden" name="orderid" id="orderid">
+                <div class="row">
+                    <div class="col-md-12 ">
+                    <h6>Select Rating Stars:</h6>
+                        <div class="rate">
+                            <input type="radio" id="star5" name="rate" value="5" />
+                            <label for="star5" title="5 stars">5 stars</label>
+                            <input type="radio" id="star4" name="rate" value="4" />
+                            <label for="star4" title="4 stars">4 stars</label>
+                            <input type="radio" id="star3" name="rate" value="3" />
+                            <label for="star3" title="3 stars">3 stars</label>
+                            <input type="radio" id="star2" name="rate" value="2" />
+                            <label for="star2" title="2 stars">2 stars</label>
+                            <input type="radio" id="star1" name="rate" value="1" />
+                            <label for="star1" title="1 star">1 star</label>
+                        </div>
+                    </div>
+                </div>
+                <label for="">Describe Your Experience</label>
+                <textarea name="description" id="" cols="30" rows="3" class="form-control" placeholder="Describe Your Experience"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <input type="submit" name="review" class="btn btn-warning" value="Submit Review"></form>
+      </div>
+    </div>
+  </div>
+</div>
 
+<script>
+function reviewModal(wid,oid){
+    document.getElementById('workerid').value=wid;
+    document.getElementById('orderid').value=oid;
+}
+</script>
 {% endblock body %}
 

@@ -6,7 +6,7 @@
 {% block body %}
 
     <!-- Dashboard Tab -->
-<div class="message-box  bg-light border " style="height:40rem">
+<div class="message-box  bg-light border " >
     <div class="row">
         <div class="col-md-4 pr-0 contact-col" style="height: 40rem; overflow:auto">
             <h6 class="p-3 bg-white border-bottom text-center">All Contacts</h6>
@@ -19,7 +19,8 @@
             {% endfor %}
         </div>
         <div class="col-md-8 p-0 bg-white border" >
-            <h6 class="p-3 bg-white border-bottom text-center">{{inboxs.0.sender.name}}</h6>
+            <h6 class="p-3 bg-white border-bottom text-center"> {% if sender.name and sender.id != 1 %} {{sender.name}}{% else %}User Name {% endif %}</h6>
+            
             <div style="height: 28rem; overflow:auto" id="scroll_box">
             {% for inbox in inboxs  %}
             {% if inbox.sender == request.user %}

@@ -1,8 +1,9 @@
+from django.db.models.aggregates import Sum
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login as authlogin,logout as authlogout
 from django.contrib import messages
 from Home.models import Service
-from Worker.models import Worker,Offer
+from Worker.models import Review, Worker,Offer, Review
 from django.db.models import Count, Q
 from Buyer.models import Buyer, Work
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -28,7 +29,7 @@ def login(request):
             authlogin(request,user)
             if user.role=='worker':
                 messages.success(request, 'Your are login Successfully.')
-                return redirect('index')
+                return redirect('home_profile')
             else:
                 messages.success(request, 'Your are login Successfully.')
                 return redirect('index')
@@ -58,11 +59,15 @@ def register(request):
             return redirect('register')
         nuser =User.objects.create_user(name,email,role,password)
         nuser.save()
+        luser=User.objects.filter(is_active=True).order_by('-id')[0]
         if role == 'buyer':
-            buyer =Buyer(user=request.user)
+            buyer =Buyer(user=luser)
+            buyer.save()
+        else:
+            buyer =Worker(user=luser)
             buyer.save()
         messages.success(request, 'Your Account is created sucessfully.')
-    
+        return redirect('login')
     return render(request,"register.html")
 
 def logout(request):
@@ -184,6 +189,25 @@ def about(request):
 
 def dashboard(request):
     return render(request,"dashboard.html")
+
+# Find Work Function
+def find_worker(request):
+    
+    worker_list=Worker.objects.all()
+    review=Review.objects.all().aggregate(Sum('rating')/Count('id'))
+     #Pagination
+    page = request.GET.get('page', 1)
+    paginator = Paginator(worker_list, 8)
+    try:
+        works = paginator.page(page)
+    except PageNotAnInteger:
+        works = paginator.page(1)
+    except EmptyPage:
+        works = paginator.page(paginator.num_pages)
+    context={
+        "worker":works,
+    }
+    return render(request,"find_worker.html",context)
 
 
 

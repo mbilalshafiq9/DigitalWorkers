@@ -15,7 +15,7 @@
       <div class="col-md-12 p-5">
         <form id='profile-form' method="POST" action="post-work">
         {% csrf_token %}
-          <h3 class="text-gray text-center">Post a Work and Hire Talented Worker</h3>
+          <h3 class="text-gray text-center">Post a Work OR <a href="{% url 'find_worker' %}"> Find Worker </a></h3>
           <hr class="w-25" style="border:1px solid gray" >
             <div class="row">
                 <div class="col-md-6">

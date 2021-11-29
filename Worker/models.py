@@ -3,7 +3,7 @@ from django.db import models
 
 from django.conf import settings
 from django.db.models.fields import BooleanField
-from Buyer.models import Work
+from Buyer.models import Work, Buyer
 # Create your models here.
 
 class Worker(models.Model):
@@ -49,3 +49,16 @@ class Order(models.Model):
     def __str__(self):
         order=self.offer.description
         return order
+
+class Review(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    worker = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, related_name="worker_re")
+    buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True , related_name="buyer_re")
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True , related_name="order")
+    rating = models.IntegerField( null=True)
+    description = models.TextField( null=True)
+    created_at=models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        review=self.description
+        return review

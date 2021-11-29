@@ -1,0 +1,104 @@
+{% extends 'layout.html' %}
+{% block title %}Find Worker | Digital Workers{% endblock title %}
+{% block find_work %}active{% endblock find_work %}
+
+{% load static %}
+{% block body %}
+<!-- Body Start -->
+<style>
+    .work-box:hover{border:1px solid gray;cursor:pointer;box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important}
+</style>
+<body class="bg-light">
+  <div class="container ">
+    <!-- Skills Slider Section -->
+    <section class="works">
+      <h3 class="text-gray  my-4">Find Worker </h3>
+      <!-- Custom Search Bar -->
+        <form action="search" method="get">
+        <div class="input-group mb-3 search-bg">
+            <div class="input-group-append">
+                <select name="location" required  class="text-yellow px-3 search-select" >
+                    <option value="">Choose Location</option>
+                    <option value="Sahiwal" {% if request.GET.location == "Sahiwal" %}selected{% endif %}>Sahiwal</option>
+                    <option value="Lahore" {% if request.GET.location == "Lahore" %}selected{% endif %}>Lahore</option>
+                    <option value="Multan" {% if request.GET.location == "Multan" %}selected{% endif %}>Multan</option>
+                </select>
+            
+            </div>
+            <div class="input-group-append">
+                <select name="rating" value="{{request.GET.rating}}" required class="text-yellow px-3 search-select" >
+                    <option value="">Select Rating</option>
+                    <option value="1" {% if request.GET.rating == "1" %}selected{% endif %}> 1 &#11088;</option>
+                    <option value="2"{% if request.GET.rating == "2" %}selected{% endif %}> 2  &#x2B50;</option>
+                    <option value="3" {% if request.GET.rating == "3" %}selected{% endif %}> 3 &#x2B50;</option>
+                    <option value="4" {% if request.GET.rating == "5" %}selected{% endif %}> 4 &#x2B50;</option>
+                    <option value="5">5 &#x2B50;</option>
+                </select>
+            </div>
+            <input type="text"name="query" value="{{request.GET.query}}"class="form-control search-input py-4" required placeholder=" Search Work title or keyword here..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+            <button class="btn-yellow px-5 search-btn" type="submit">Search <i class="fas fa-search"></i></button></form>
+            </div>
+        </div>
+                {% if worker %}
+                    <h6 class="text-success">Total Works Available: {{worker|length}}</h6>
+                {% else %}
+                    <h6 class="text-danger ">Results not found <a href="{% url 'find_work' %}">Show all</a></h6>
+                {% endif %}
+    
+    </section><br> <br>
+ 
+</div>
+    <!-- Works List Section-->
+    <div class="container">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="row"> 
+                    {% for worker in worker %} 
+                    <div class="col-lg-4 col-xl-3 col-md-6 p-2 "> 
+                        <div class="work-box p-3  bg-white rounded border" id="work-box" onclick="detailbox('{{worker.id}}')" >
+                        <img src="{% static 'images/worker.jpg' %}" class="border border-warning rounded-50 p-2 rounded mx-auto d-block" width="70" alt="work_icon" srcset=""> 
+                        
+                        <div class="inner-box text-center  mt-3">
+                            <h5 class="mt-4">{{worker.user.name}}</h5>
+                            <b>4.5 <i class="fas fa-star text-warning"></i></b> <br>
+                            <p class="float-left text-gray mt-3"><i class="fas fa-thumbtack"></i> {{worker.skills|truncatechars:25}}</p> <br>
+                            <p class="float-left text-gray"><i class="fas fa-map-marker-alt"></i> {{worker.address}}</p> <br>
+                            <a class=" btn btn-sm btn-dark" href="/buyer/inbox?sender={{worker.user.id}}">Contact <i class="fas fa-paper-plane"></i></a>
+                        </div>
+                        </div>
+                    </div>{% endfor %}
+                </div>
+                 <!-- Pagination -->
+                {% if worker.has_other_pages %}
+                <nav aria-label="Page navigation example">
+                        <ul class="pagination pagination-template d-flex justify-content-center">
+                        {% if worker.has_previous %}
+                            <li class="page-item"><a href="?page={{ worker.previous_page_number }}" class="page-link"> <i class="fa fa-angle-left"></i></a></li>
+                            {% else %}
+                            <li class="page-item disabled"><a href="" class="page-link"> <i class="fa fa-angle-left"></i></a></li> {% endif %}
+                            {% for i in worker.paginator.page_range %}
+                            {% if worker.number == i %}
+                            <li class="page-item"><a href="#" class="page-link active">{{ i }}</a></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link " href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                            {% endfor %}
+                            {% if worker.has_next %}
+                            <li class="page-item"><a href="?page={{ worker.next_page_number }}" class="page-link"> <i class="fa fa-angle-right"></i></a></li>
+                            {% else %}
+                            <li class="disabled page-item"><a href="" class="page-link"><i class="fa fa-angle-right"></i></a></li>
+                            {% endif %}
+                        </ul>
+                </nav>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+        <br><br>
+
+<!-- Js Code Below -->
+ 
+
+{% endblock body %}
