@@ -228,23 +228,7 @@
   integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
   <!-- OWL carousel Slider JS -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js"></script>
-
-
-  <script>
- 
-        $(".reveal").on('click',function() {
-          var $pwd = $(".pwd");
-          if ($pwd.attr('type') === 'password') {
-              $pwd.attr('type', 'text');
-              $('#show_hide_password i').addClass( "fa-eye-slash" );
-              $('#show_hide_password i').removeClass( "fa-eye" );
-          } else {
-              $pwd.attr('type', 'password');
-              $('#show_hide_password i').addClass( "fa-eye" );
-              $('#show_hide_password i').removeClass( "fa-eye-slash" );
-       }
-    });
-    </script>
+  <script type="text/javascript" src=" {% static 'js/custom.js' %}"></script>
 
 </footer>
 <section class="footer-bottom bg-gray text-center text-white p-3">

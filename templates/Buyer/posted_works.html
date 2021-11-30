@@ -77,25 +77,22 @@
             <div class="tab-pane fade bg-white" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                 <table class="table">
                     <tr>
-                         <th>Order To</th>
-                        <th>Offer Description</th>
+                        <th>Order To</th>
+                        <th>Order Description</th>
                         <th>Ordered at</th>
                         <th>Action</th>
                     </tr>
                     {% if orders_com %}
                     {% for order in orders_com %}
-                    <tr>
+                    <tr >
                         <td>{{order.order_to.name}}</td>
                         <td>{{order.offer.description}} <h6 class="text-success">Rs.{{order.offer.budget}}</h6></td>
-                        <td>{{order.ordered_at|timesince}} ago</td>
-                        {% for review in reviews %}
-                            {% if review.order.id == order.id  %}
-                            <td>{{review.rating}}  <i class="fas fa-star text-warning"></i> </td>
-                            {% else %}
-                                <td><button type="submit" class="btn btn-sm btn-primary" onclick="reviewModal('{{order.order_to.id}}','{{order.id}}')" data-toggle="modal" data-target="#reviewModal">Give Review</button></td>
-                            {% endif %}
-                        {% endfor %}
-                        
+                        <td>{{order.ordered_at|timesince}} ago </td>
+                        {% if order.id in reviews %}
+                        <td id="rating_clm{{order.id}}" ><i class="fas fa-star text-warning"></i> Rated</td>
+                        {% else %}
+                            <td><button type="submit" class="btn btn-sm btn-primary" onclick="reviewModal('{{order.order_to.id}}','{{order.id}}')" data-toggle="modal" data-target="#reviewModal">Give Review</button></td>
+                      {% endif %}
                     </tr>
                     {% endfor %}
                     {% else %}
@@ -150,11 +147,39 @@
   </div>
 </div>
 
+
+ <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+</script>
+
 <script>
 function reviewModal(wid,oid){
     document.getElementById('workerid').value=wid;
     document.getElementById('orderid').value=oid;
 }
+
+ // GET AJAX request
+ 
+ function GetReview(oid){
+     alert(oid)
+  $.ajax({
+      type: 'GET',
+      url: "{% url 'get_review' %}",
+      data: {"oid": oid},
+      dataType: "json",
+      success: function (response) {
+          // if not valid user, alert the user
+            if(response){
+                $('#rating_clm'+oid).html(response.rating+'<i class="fas fa-star text-warning"></i>' );
+            }
+      },
+      error: function (response) {
+            alert("fail");
+      }
+  })
+}
+
+
 </script>
 {% endblock body %}
 

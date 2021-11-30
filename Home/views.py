@@ -121,7 +121,7 @@ def post_work(request):
         work =Work(title=title, description=description,location=location,budget=budget,deadline=deadline,service=service,posted_by=posted_by)
         work.save()
         messages.success(request, 'Task is Posted Successfully!')
-        return render(request,"post_work.html")
+        return redirect("posted_works")
     # Check if Only Buyer is logged in 
     if request.user.is_authenticated and request.user.role == 'buyer':
         context={
@@ -192,9 +192,8 @@ def about(request):
 def dashboard(request):
     return render(request,"dashboard.html")
 
-# Find Work Function
+# Find Worker Function
 def find_worker(request):
-    
     worker_list=Worker.objects.all()
     reviews=Review.objects.all()
      #Pagination
@@ -208,10 +207,33 @@ def find_worker(request):
         works = paginator.page(paginator.num_pages)
     context={
         "worker":works,
+        "services":Service.objects.filter(is_active=True),
         "reviews":reviews,
     }
     return render(request,"find_worker.html",context)
 
-
+# Find Work Function
+def search_worker(request):
+    if request.method=="GET":
+        query=request.GET['query']
+        service=request.GET['service']
+        rating=request.GET['rating']
+        worker_list=Worker.objects.filter(  Q(skills__contains=service) )
+        reviews=Review.objects.all()
+        #Pagination
+        page = request.GET.get('page', 1)
+        paginator = Paginator(worker_list, 8)
+        try:
+            works = paginator.page(page)
+        except PageNotAnInteger:
+            works = paginator.page(1)
+        except EmptyPage:
+            works = paginator.page(paginator.num_pages)
+        context={
+            "worker":works,
+            "services":Service.objects.filter(is_active=True),
+            "reviews":reviews,
+        }
+        return render(request,"find_worker.html",context)
 
 

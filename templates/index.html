@@ -11,8 +11,8 @@
       <div class="row ">
           <div class="col-md-5 offset-md-1 text-center p-5">
               <h1 class="text-gray my-5">HIRE OR BE AN EXPERIENCED DIGITAL WORKER</h1>
-              <button type="button" class=" btn-gray ">POST WORK</button>
-              <button type="button" class=" btn-yellow ">FIND WORK</button>
+              <a href="{% url 'post_work' %}" type="button" class=" btn-gray ">POST WORK</a>
+              <a href="{% url 'find_work' %}" type="button" class=" btn-yellow ">FIND WORK</a>
           </div>
           <div class="col-md-6 m-auto">
               <img src="{% static 'images/banner.png' %}" class="w-75" alt="" srcset="">

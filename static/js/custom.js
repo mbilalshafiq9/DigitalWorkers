@@ -1,4 +1,6 @@
 
+
+
 // JQuery For Multistep Profile Form
 $('#tab1').show();
   function Nexttab(n){
@@ -40,3 +42,18 @@ $('#tab1').show();
     $('#text-message').show();
     $('#profile-form').submit();
   }
+  // Show and Hide Password
+  $(".reveal").on('click',function() {
+    var $pwd = $(".pwd");
+    if ($pwd.attr('type') === 'password') {
+        $pwd.attr('type', 'text');
+        $('#show_hide_password i').addClass( "fa-eye-slash" );
+        $('#show_hide_password i').removeClass( "fa-eye" );
+    } else {
+        $pwd.attr('type', 'password');
+        $('#show_hide_password i').addClass( "fa-eye" );
+        $('#show_hide_password i').removeClass( "fa-eye-slash" );
+ }
+});
+
+  

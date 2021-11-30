@@ -1,6 +1,6 @@
+from django.http.response import JsonResponse
 from django.shortcuts import render,redirect
 from django.contrib import messages
-# from django.contrib.auth import authenticate,login as authlogin,logout as authlogout
 from Buyer.models import Buyer,Work,Message
 from Worker.models import Offer,Order, Review, Worker
 from django.db.models import Count , Q
@@ -41,7 +41,7 @@ def posted_works(request):
         "works_ava":Work.objects.filter(posted_by=request.user).filter(status="available").annotate(offer_count=Count('offer')).order_by('-posted_at'),
         "orders":Order.objects.filter(order_by=request.user).filter(status="active").order_by('-ordered_at'),
         "orders_com":Order.objects.filter(order_by=request.user).filter(status="completed").order_by('-ordered_at'),
-        "reviews":Review.objects.filter(buyer=request.user)
+        "reviews":Review.objects.filter(buyer=request.user).values_list('order',flat=True)
     }
     return render(request,"Buyer/posted_works.html", context)
 
@@ -59,7 +59,8 @@ def work_offers(request):
         work.save()
         oid=request.POST['oid']
         offer=Offer.objects.get(id=oid)
-
+        offer.is_accepted=True
+        offer.save()
         order =Order(offer=offer,order_by=request.user,order_to=offer.offer_by)
         order.save()  
         messages.success(request, 'Offer is Accepted. Get your Order Done!')
@@ -156,4 +157,13 @@ def inbox(request):
     }
     return render(request,"Buyer/inbox.html", context)
 
+def GetReview(request):
+    # request should be ajax and method should be GET.
+    oid = request.GET.get("oid")
+    order=Order.objects.get(id = oid)
+    review=Review.objects.get(order = order)
+    if review:
+        return JsonResponse({"valid":True, "rating":review.rating}, status = 200)
+    else:
+        return JsonResponse({"valid":False},status = 404)
     

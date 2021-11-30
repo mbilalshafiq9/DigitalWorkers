@@ -38,9 +38,9 @@
                     <input type="text" list="location" name="location" class="form-control" id="query" required onkeypress="showlocation(this.value)"  placeholder="E.g, Street#1 Fareed town Sahiwal">
                     <datalist id="location"></datalist>
                     <label for="" class="mt-3 text-bold text-gray">Due Date:</label>
-                    <input type="date" name="deadline" class="form-control" required>
+                    <input type="date" name="deadline" class="form-control"  min="{% now "Y-m-d" %}" required>
                     <label for="" class="mt-3 text-bold text-gray">Budget:</label>
-                    <input type="number" name="budget" class="form-control" placeholder="Rs. 1500" required> <br>
+                    <input type="number" name="budget" min="200" class="form-control" placeholder="Rs. 1500" required> <br>
                     <input type="submit" class=" btn-yellow px-5" name="" value="Post Work" id="">
 
                 </div>

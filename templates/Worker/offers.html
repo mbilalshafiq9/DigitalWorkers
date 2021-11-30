@@ -31,7 +31,7 @@
                         <td>{{offer.due_date}} ago</td>
                         <td>{{offer.offer_at|timesince}} ago</td> 
                         {% if offer.is_accepted == True %}
-                            <td><b class="text-success">Accepted<b><br><a href="" class="btn btn-sm btn-info text-white">Send Message</a></td>  </tr>
+                            <td><b class="text-success">Accepted<b></td>  </tr>
                         {% else %}
                             <td><p class="text-info">Waiting in Review<p></td>  </tr>
                         {% endif %}

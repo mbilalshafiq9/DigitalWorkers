@@ -14,19 +14,19 @@
     <section class="works">
       <h3 class="text-gray  my-4">Find Worker </h3>
       <!-- Custom Search Bar -->
-        <form action="search" method="get">
+        <form action="{% url 'search_worker' %}" method="get">
         <div class="input-group mb-3 search-bg">
             <div class="input-group-append">
-                <select name="location" required  class="text-yellow px-3 search-select" >
-                    <option value="">Choose Location</option>
-                    <option value="Sahiwal" {% if request.GET.location == "Sahiwal" %}selected{% endif %}>Sahiwal</option>
-                    <option value="Lahore" {% if request.GET.location == "Lahore" %}selected{% endif %}>Lahore</option>
-                    <option value="Multan" {% if request.GET.location == "Multan" %}selected{% endif %}>Multan</option>
+                <select name="service" required  class="text-gray px-3 search-select" >
+                    <option value="">Choose Service</option>
+                    {% for service in services %}
+                    <option value="{{service.id}}" {% if request.GET.service == "{{service.id}}" %}selected{% endif %}>{{service.name}}</option>
+                    {% endfor %}
                 </select>
             
             </div>
             <div class="input-group-append">
-                <select name="rating" value="{{request.GET.rating}}" required class="text-yellow px-3 search-select" >
+                <select name="rating" value="{{request.GET.rating}}" required class="text-gray px-3 search-select" >
                     <option value="">Select Rating</option>
                     <option value="1" {% if request.GET.rating == "1" %}selected{% endif %}> 1 &#11088;</option>
                     <option value="2"{% if request.GET.rating == "2" %}selected{% endif %}> 2  &#x2B50;</option>
@@ -41,7 +41,7 @@
             </div>
         </div>
                 {% if worker %}
-                    <h6 class="text-success">Total Works Available: {{worker|length}}</h6>
+                    <h6 class="text-success">Total Workers Available: {{worker|length}}</h6>
                 {% else %}
                     <h6 class="text-danger ">Results not found <a href="{% url 'find_work' %}">Show all</a></h6>
                 {% endif %}
