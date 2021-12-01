@@ -77,7 +77,10 @@ def verification(request):
         worker.save()
         messages.success(request, 'Profile Updated Successfully!')
         return redirect("worker_profile")
-    return render(request,"Worker/verification.html")
+    context={
+    "worker":Worker.objects.get(user=request.user)
+    }
+    return render(request,"Worker/verification.html", context)
 
 @auth_middleware
 def change_password(request):

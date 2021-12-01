@@ -9,7 +9,7 @@
 <div class="message-box  bg-light border " >
     <div class="row">
         <div class="col-md-4 pr-0 contact-col" style="height: 40rem; overflow:auto">
-            <h6 class="p-3 bg-white border-bottom text-center">All Contacts</h6>
+            <h6 class="p-3 bg-white border-bottom text-center">Recent Chats </h6>
             {% for contact in contacts %}
              <a href="inbox?sender={{contact.id}}"  class="text-dark">
              <div class="contact-box p-2 m-2 " >
@@ -42,8 +42,7 @@
                 <form action="" method="post"> <input type="hidden" name="rid" value="{{request.GET.sender}}">
                 {% csrf_token %}
                 <textarea name="message" id="" class="form-control" required cols="120" rows="3" placeholder="Write your message here..."></textarea>
-                <button type="submit" class="btn btn-sm btn-success m-2"><i class="fas fa-paper-plane"></i>  Send</button>
-                <button class="btn btn-sm btn-info m-2">Create an Offer</button></form>
+                <button type="submit" class="btn btn-sm btn-success m-2"><i class="fas fa-paper-plane"></i>  Send</button></form>
             </div>
         </div>
         
