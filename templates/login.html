@@ -19,9 +19,11 @@
                     <i class="fas fa-unlock mt-2"></i> <i class="fas fa-eye reveal mt-3"></i>
                      <input type="password" name="password" class="input-txt pwd" placeholder="Password" required>
                 </div>
-               <div class="form-input mt-0  text-left">
+               <div class="form-input mt-0  float-left">
                    <input type="checkbox" name="submit" class="text-bold"> Remeber Me
                 </div>
+                <div class="form-input mt-0  float-right" ><a href="{% url 'forgot_password' %}"> Forgot Password ?</a>
+                 </div>
                 <div class="form-input mt-0">
                      <input type="submit" name="submit" class="btn btn-warning w-100 text-bold" value="Login Now">
                 </div>

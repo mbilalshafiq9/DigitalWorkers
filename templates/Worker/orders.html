@@ -33,21 +33,65 @@
                     {% if orders_ava %}
                     {% for order in orders_ava %}
                     <tr>
-                        <td>DWO-0{{order.id}}</td>
+                        <td>DWO-{{order.id}}</td>
                         <td>{{order.order_by.name}}</td>
                         <td class="text-success text-bold">Rs.{{order.offer.budget}}</td>
                         <td>{{order.offer.description|truncatechars:30}}</td>
                         <td>{{order.ordered_at|timesince}} ago</td>
                         <form action="{% url 'offers' %}" method="get"> <input type="hidden" name="wid" value="{{work.id}}" >
-                        <td><button type="submit"  class="btn btn-sm btn-info">Yes, Completed</button></form><a class="btn btn-sm btn-warning" href="inbox?sender={{order.order_by.id}}">Message Him</a>
-                        <button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#locationModal">Track Location</button></td>
+                        <td></form><a class="btn btn-sm btn-warning" href="inbox?sender={{order.order_by.id}}">Message Him</a>
+                        <button class="btn btn-dark btn-sm" data-toggle="modal" data-target="#locationModal{{order.id}}">Track Location</button></td>
                     </tr>
+                    <!-- Modal -->
+                    <div class="modal fade" id="locationModal{{order.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Track Work Location</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mapouter"><div class="gmap_canvas">
+                                    <iframe width="460" height="450" id="gmap_canvas" src="https://maps.google.com/maps?q={{order.offer.work.location}}&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                                    <style>.mapouter{position:relative;text-align:right;height:500px;width:460px;}</style>
+                                    <style>.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:460px;}</style></div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                     {% endfor %}
                     {% else %}
                     <h6 class="text-danger">No Result Found</h6>
                     {% endif %}
                 </table>
             </div>
+            
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+                <script type="text/javascript">
+                function GetReview(oid){
+                $.ajax(
+                {
+                    type:"GET",
+                    url: "/worker/orders",
+                    data:{
+                            order_id: oid
+                    },
+                    success: function( data ) 
+                    { 
+                        if(data.status==200){
+                            console.log(data);
+                            $('#status'+oid).html('<b class="text-success">Completed '+data.rating+'</b><i class="fas fa-star text-warning"> </i> ');
+                        }
+                    }
+                })
+                }
+                </script>
             <!-- Completed Order Tab -->
             <div class="tab-pane fade bg-white" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                 <table class="table">
@@ -63,7 +107,8 @@
                         <td>{{order.order_by.name}}</td>
                         <td>{{order.offer.description}} <h6 class="text-success">Rs.{{order.offer.budget}}</h6></td>
                         <td>{{order.ordered_at|timesince}} ago</td>
-                        <td class="text-bold text-success">Completed</td>
+                         <script> GetReview('{{order.id}}')</script>
+                        <td class="text-info" id="status{{order.id}}"> Waiting for Review</td>
                     </tr>
                     {% endfor %}
                     {% else %}
@@ -74,29 +119,6 @@
         </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="locationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Track Work Location</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <div class="mapouter"><div class="gmap_canvas">
-                <iframe width="480" height="450" id="gmap_canvas" src="https://maps.google.com/maps?q=Sahiwal,%20pakistan&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-                <a href="https://123movies-org.net"></a><br><style>.mapouter{position:relative;text-align:right;height:500px;width:480px;}</style><a href="https://www.embedgooglemap.net">how to add a google map to my website</a>
-                <style>.gmap_canvas {overflow:hidden;background:none!important;height:500px;width:480px;}</style></div>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
 
 {% endblock body %}

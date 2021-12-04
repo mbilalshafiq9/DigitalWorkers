@@ -42,7 +42,7 @@ html,body {
     background-color: #525356;
 }
 .btn-gray:hover{
-    color:  #525356;
+    color:  #525356 !important;
     background-color:#EEC120;
 }
 .btn-yellow{ padding: 10px 20px;
@@ -338,6 +338,7 @@ border: 2px solid #e9a1ff;
 .bg-Ac { background:#DF2C57 }
 .bg-Plumber { background:#858585 }
 .bg-Photographer { background:#F93A0B }
+.bg-Pickup/Delivery{ background:#8a005c }
 
 /* Rating Star CSS */
 

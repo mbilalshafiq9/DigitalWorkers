@@ -189,9 +189,6 @@ def profile(request):
 def about(request):
     return render(request,"about.html")
 
-def dashboard(request):
-    return render(request,"dashboard.html")
-
 # Find Worker Function
 def find_worker(request):
     worker_list=Worker.objects.all()
@@ -237,3 +234,5 @@ def search_worker(request):
         return render(request,"find_worker.html",context)
 
 
+def forgot_pass(request):
+    return render(request,"dashboard.html")

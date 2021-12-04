@@ -18,13 +18,12 @@ def dashboard(request):
 
 @auth_middleware
 def posted_works(request):
-    # if request.method == "POST" and request.POST['accept_order']:
-    #     oid=request.POST['oid']
-    #     order=Order.objects.get(id=oid)
-    #     order.status="completed"
-    #     order.save()
-    #     messages.success(request, 'Order Accepted Successfully!')
-    #     return redirect("posted_works")
+    # request should be ajax and method should be GET.
+    if request.method == 'GET' and request.GET.get('order_id'):
+        oid = request.GET.get("order_id")
+        order=Order.objects.get(id = oid)
+        review=Review.objects.get(order = order)
+        return JsonResponse({"status":200, "rating":review.rating})
     if request.method == "POST" and request.POST['review']:
         wid=request.POST['workerid']
         oid=request.POST['orderid']
@@ -73,6 +72,7 @@ def work_offers(request):
 
 @auth_middleware
 def orders(request):
+    
     if request.method == "POST" :
         oid=request.POST['oid']
         order=Order.objects.get(id=oid)
@@ -156,14 +156,3 @@ def inbox(request):
         "inboxs":Message.objects.filter( Q(reciever=request.user) & Q(sender=sender) | Q(sender=request.user) & Q(reciever=sender) ).order_by("sent_at"),
     }
     return render(request,"Buyer/inbox.html", context)
-
-def GetReview(request):
-    # request should be ajax and method should be GET.
-    oid = request.GET.get("oid")
-    order=Order.objects.get(id = oid)
-    review=Review.objects.get(order = order)
-    if review:
-        return JsonResponse({"valid":True, "rating":review.rating}, status = 200)
-    else:
-        return JsonResponse({"valid":False},status = 404)
-    

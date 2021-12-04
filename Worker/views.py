@@ -1,8 +1,9 @@
+from django.http.response import HttpResponse
 from django.shortcuts import render,redirect
 from django.contrib import messages
-# from django.contrib.auth import authenticate,login as authlogin,logout as authlogout
+from django.http import JsonResponse
 from Buyer.models import Work,Message,Service
-from Worker.models import Offer,Order,Worker
+from Worker.models import Offer,Order, Review,Worker
 from django.db.models import Count , Q
 from Middlewares.auth_worker import auth_middleware
 from django.contrib.auth import authenticate, get_user_model
@@ -26,10 +27,14 @@ def offers(request):
 
 @auth_middleware
 def orders(request):
-
+    if request.method == 'GET' and request.GET.get('order_id'):
+        oid =request.GET.get('order_id') 
+        order=Order.objects.get(id=oid)
+        review = Review.objects.get(order=order) 
+        return JsonResponse({"status":200,"rating":review.rating})
     context={
         "orders_ava":Order.objects.filter(order_to=request.user).filter(status="active").order_by('-ordered_at'),
-        "orders_com":Order.objects.filter(order_to=request.user).filter(status="completed").order_by('-ordered_at')
+        "orders_com":Order.objects.filter(order_to=request.user).filter(status="completed").order_by('-ordered_at'),
     }
     return render(request,"Worker/orders.html", context)
 

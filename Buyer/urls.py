@@ -13,5 +13,4 @@ urlpatterns = [
     path('profile', views.profile, name="profile"),
     path('change-password', views.change_password, name="change_password"),
     # path('forgot_password', views.forgot_pass, name="forgot_password"),
-    path('get_review', views.GetReview, name="get_review")
 ]
