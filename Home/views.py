@@ -8,6 +8,7 @@ from django.db.models import Count, Q
 from Buyer.models import Buyer, Work
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import random
+from django.core.mail import EmailMultiAlternatives
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -235,4 +236,42 @@ def search_worker(request):
 
 
 def forgot_pass(request):
-    return render(request,"dashboard.html")
+    if  request.method == 'POST' and request.POST['email']:
+        email=request.POST['email']
+        find_user=User.objects.filter(email=email)
+       
+        # body='<h3>Hi, Click on the following link to reset. <br> Dont Share this link with anyone. Thanks</h3> <br><h4> Best Regards: Blog to Glob</h4>'
+        if find_user:
+            body='<div style="background-color:#edf2f7; color:#3d4852;padding:5% 10%; font-family: Roboto, Helvetica, Arial, sans-serif">'
+            body=body+'<a href="" style="text-style:none;"><h1 style="text-align:center">Digital Workers</h1></a>'
+            body=body+'<div style="background-color:white;padding:2% 5%;border:1px solid gray">'
+            body=body+'<h2>Hello '+find_user[0].name+'!</h2> <h2>Have you forgot your Password?</h2>'
+            body=body+'<p style="font-size:18px">Dont Worry! We are help to help you. Just  <a href="http://127.0.0.1:8000/reset_password?email='+email+'&pass='+find_user[0].password+'">Click Here</a> to reset your password and Keep enjoying our services. Thanks have a nice day</p><br><hr>'
+            body=body+'<p style="font-size:18px">Regards,<br> Digital Workers</p>  </div>'
+            msg=EmailMultiAlternatives('Reset Password Link',body,'Digital Workers',[email])
+            msg.attach_alternative(body, "text/html")
+            msg.send()
+            messages.success(request, 'Password Reset link is sent to your mail Sucessfully. Check your Mail inbox')
+            return redirect("login")
+        else:
+            messages.error(request, 'Email is not registered. Type Carefully!')
+            return redirect("login")
+    return render(request,"login.html")
+
+def reset_pass(request):
+    if request.method=='POST':
+        email=request.POST['email']
+        old_pass=request.POST['old_pass']
+        password=request.POST['pass']
+        confirm_pass=request.POST['confirm_pass']
+        if password != confirm_pass:
+            messages.error(request, 'Confirm Password is not same as new password!')
+            return redirect('/reset_password?email='+email+'&pass='+old_pass+'')
+        else:
+            user=User.objects.get(email=email,password=old_pass)
+            user.set_password(password)
+            user.save()
+            messages.success(request, 'Password changed sucessfully!')
+            return redirect("login")
+    return render(request,"reset_password.html")
+            
