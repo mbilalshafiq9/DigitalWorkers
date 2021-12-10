@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.http import JsonResponse
 from Buyer.models import Work,Message,Service
-from Worker.models import Offer,Order, Review,Worker
+from Worker.models import Commission, Commission_Paid, Offer,Order, Review,Worker
 from django.db.models import Count , Q
 from Middlewares.auth_worker import auth_middleware
 from django.contrib.auth import authenticate, get_user_model
@@ -86,6 +86,22 @@ def verification(request):
     "worker":Worker.objects.get(user=request.user)
     }
     return render(request,"Worker/verification.html", context)
+
+@auth_middleware
+def commission(request):
+    worker=Worker.objects.get(user=request.user)
+    context={
+    "commission":Commission.objects.filter(worker=worker),
+    "commission_paid":Commission_Paid.objects.filter(paid_by=worker)
+    }
+    return render(request,"Worker/commission.html", context)
+
+@auth_middleware
+def commission_paid(request):
+    context={
+    "worker":Worker.objects.get(user=request.user)
+    }
+    return render(request,"Worker/commission_paid.html", context)
 
 @auth_middleware
 def change_password(request):

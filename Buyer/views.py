@@ -2,10 +2,12 @@ from django.http.response import JsonResponse
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from Buyer.models import Buyer,Work,Message
-from Worker.models import Offer,Order, Review, Worker
+from Worker.models import Commission, Offer,Order, Review, Worker
 from django.db.models import Count , Q
 from Middlewares.auth_buyer import auth_middleware
 from django.contrib.auth import authenticate, get_user_model
+
+from Worker.views import commission
 User = get_user_model()
 # Create your views here.
 # dashboard
@@ -78,6 +80,12 @@ def orders(request):
         order=Order.objects.get(id=oid)
         order.status="completed"
         order.save()
+        # Update Commision amount
+        worker=Worker.objects.get(user=order.order_to)
+        amount=order.offer.budget*10/100
+        commission=Commission.objects.get(worker=worker)
+        commission.amount=commission.amount+amount
+        commission.save()
         messages.success(request, 'Order Accepted Successfully!')
         return redirect("posted_works")
     context={

@@ -50,6 +50,26 @@ class Order(models.Model):
         order=self.offer.description
         return order
 
+class Commission(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    worker = models.ForeignKey(Worker, on_delete=models.CASCADE, null=True,related_name='worker_com')
+    amount = models.IntegerField(null=True)
+    created_at=models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        commission=self.worker.user.name +' - Rs.'+ str(self.amount) 
+        return commission
+
+class Commission_Paid(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    paid_by = models.ForeignKey(Worker, on_delete=models.CASCADE, null=True,related_name='paid_by')
+    pay_amount = models.IntegerField(null=True)
+    paid_at=models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        pay=self.paid_by.user.name +' - Rs.'+ str(self.pay_amount) 
+        return pay
+
 class Review(models.Model):
     id = models.BigAutoField(primary_key=True)
     worker = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, related_name="worker_re")

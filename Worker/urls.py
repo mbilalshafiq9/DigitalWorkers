@@ -13,4 +13,6 @@ urlpatterns = [
     path('skills', views.skills, name="skills"),
     path('verification', views.verification, name="verification"),
     path('change-password', views.change_password, name="worker_change_password"),
+    path('commission', views.commission, name="commission"),
+    path('commission-paid', views.commission_paid, name="commission_paid"),
 ]

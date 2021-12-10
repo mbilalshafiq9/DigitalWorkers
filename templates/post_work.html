@@ -39,7 +39,7 @@
                     <datalist id="location"></datalist>
                     <label for="" class="mt-3 text-bold text-gray">Due Date:</label>
                     <input type="date" name="deadline" class="form-control"  min="{% now "Y-m-d" %}" required>
-                    <label for="" class="mt-3 text-bold text-gray">Budget:</label> Commision (10%) 
+                    <label for="" class="mt-3 text-bold text-gray">Budget:</label> Commision (5%) 
                     <input type="number" name="budget1" min="200" onchange="GetTotal(this.value)" class="form-control" placeholder="Rs. 1500" required>
                     <label for="" class="mt-3 text-bold text-gray">Budget After Commision:</label>
                     <input type="number"  name="budget" id="commision"  readonly class="form-control" placeholder="Rs. 1650" required> <br>
@@ -77,7 +77,7 @@ function showlocation(position) {
 }
    
 function GetTotal(val){
-    var commision=val*10/100;
+    var commision=val*5/100;
     var tval=parseInt(val) +parseInt(commision) ;
     console.log(tval);
     document.getElementById("commision").value=tval;

@@ -144,11 +144,11 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="">Offer Price</label>
-                        <input type="number" name="price1" onchange="GetTotal(this.value)"class="form-control" placeholder="E.g, 1200" id="">
+                        <input type="number" name="price" onchange="GetTotal(this.value)"class="form-control" placeholder="E.g, 1200" id="">
                     </div>
                     <div class="col-md-6">
-                        <label for="">Offer Price After Commision</label>
-                        <input type="number" name="price" id="commision" readonly class="form-control" placeholder="E.g, 1320" id="">
+                        <label for="">Commision To Pay (10%)</label>
+                        <input type="number" name="price1" id="commision" readonly class="form-control" placeholder="E.g, 120" id="">
                     </div>
                     <div class="col-md-12">
                         <label for="">Due Date</label>
@@ -206,9 +206,7 @@
  detailbox(2);
  function GetTotal(val){
     var commision=val*10/100;
-    var tval=parseInt(val) +parseInt(commision) ;
-    console.log(tval);
-    document.getElementById("commision").value=tval;
+    document.getElementById("commision").value=commision;
 }
  </script>
 
