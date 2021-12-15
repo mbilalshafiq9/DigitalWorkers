@@ -30,7 +30,7 @@
                         <td>{{offer.offer_at|timesince}} ago</td>
                         <form action="{% url 'offers' %}" method="POST"> <input type="hidden" name="wid" value="{{work.id}}" > <input type="hidden" name="oid" value="{{offer.id}}" >
                             {% csrf_token %}
-                        <td><a href="/buyer/inbox?sender={{offer.offer_by.id}}" class="btn btn-sm btn-info">Send Message</a><button  type="submit" class="btn btn-sm btn-warning">Accept Order</a></td></form>
+                        <td><a href="/buyer/inbox?sender={{offer.offer_by.id}}" class="btn btn-sm btn-info">Send Message</a><button  type="submit" class="btn btn-sm btn-warning">Accept Offer</a></td></form>
                     </tr>
                     {% endfor %}
                     {% else %}

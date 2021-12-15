@@ -83,9 +83,13 @@ def orders(request):
         # Update Commision amount
         worker=Worker.objects.get(user=order.order_to)
         amount=order.offer.budget*10/100
-        commission=Commission.objects.get(worker=worker)
-        commission.amount=commission.amount+amount
-        commission.save()
+        commission=Commission.objects.filter(worker=worker)
+        if commission:
+            commission.amount=commission.amount+amount
+            commission.save()
+        else:
+            commission=Commission(amount=amount,worker=worker)
+            commission.save() 
         messages.success(request, 'Order Accepted Successfully!')
         return redirect("posted_works")
     context={
